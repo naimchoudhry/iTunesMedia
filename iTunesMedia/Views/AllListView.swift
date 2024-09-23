@@ -9,39 +9,22 @@ import SwiftUI
 
 struct AllListView: View {
     
-    let title: String
-    let subSectionItems: [TabSubSection]
+    let section: TabMainSection
+    @State var title: String = ""
     @State var searchText: String = ""
-    @State var selectedSubSection: TabSubSection?
-    var showSubSections: Bool {
-        !subSectionItems.isEmpty
-    }
     
     var body: some View {
-        NavigationStack {
-            VStack {
-                Text(title).font(.largeTitle).bold()
-                SearchBar(text: $searchText)
-                if showSubSections {
-                    SectionPicker(subSectionItems: subSectionItems, selectedSubSection: $selectedSubSection)
+        VStack {
+            LazyVStack {
+                ForEach(section.subSectionItems) { subSection in
+                    SectionHeaderView(title: subSection.title, action: {})
                 }
-                let content = 1...200
-                List {
-                    ForEach(content, id: \.self) { index in
-                        Text("\(index)")
-                    }
-                }
-                .listStyle(.plain)
             }
-        }
-        .onAppear {
-            if showSubSections, selectedSubSection == nil {
-                selectedSubSection = subSectionItems.first
-            }
+            Spacer()
         }
     }
 }
 
 #Preview {
-    AllListView(title: "All List View", subSectionItems: [.allAudio, .album, .song, .podcast])
+    AllListView(section: .audio(.album))
 }

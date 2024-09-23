@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SectionPicker: View {
+struct SectionPickerView: View {
     let subSectionItems: [TabSubSection]
     @Binding var selectedSubSection: TabSubSection?
     
@@ -24,5 +24,5 @@ struct SectionPicker: View {
 }
 
 #Preview {
-    SectionPicker(subSectionItems: [.allAudio, .album, .song, .podcast], selectedSubSection: .constant(.song))
+    SectionPickerView(subSectionItems: [.allAudio, .album, .song, .podcast], selectedSubSection: .constant(.song))
 }

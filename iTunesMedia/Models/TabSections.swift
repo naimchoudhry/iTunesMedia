@@ -20,40 +20,38 @@ enum TabMainSection: Equatable, Identifiable, Hashable {
     var title: String {
         switch self {
         case .all: "All"
+        case .book: "Books"
         case .audio: "Audio"
         case .video: "Videos"
         case .app: "Apps"
-        case .book: "Books"
         }
     }
     
     var subTitle: String {
         switch self {
-        case .all: ""
+        case .all, .book: self.title
         case .audio(let subSection): subSection.title
         case .video(let subSection): subSection.title
         case .app(let subSection): subSection.title
-        case .book: ""
         }
     }
     
     var image: String {
         switch self {
         case .all: "house"
+        case .book: "books.vertical"
         case .audio: "music.note"
         case .video: "tv"
         case .app: "apps.ipad"
-        case .book: "books.vertical"
         }
     }
     
     var subImage: String {
         switch self {
-        case .all: ""
+        case .all, .book: self.image
         case .audio(let subSection): subSection.image
         case .video(let subSection): subSection.image
         case .app(let subSection): subSection.image
-        case .book: ""
         }
     }
     
@@ -72,17 +70,48 @@ enum TabMainSection: Equatable, Identifiable, Hashable {
     
     var subSectionItems: [TabSubSection] {
         switch self {
+        case .all: [.ebook, .album, .song, .podcast, .tvshow, .movie, .shortfilm, .iPhoneApp, .iPadApp, .macApp]
+        case .book: []
+        case .audio: [.album, .song, .podcast]
+        case .video: [.tvshow, .movie, .shortfilm]
+        case .app: [.iPhoneApp, .iPadApp, .macApp]
+        }
+    }
+    
+    var subSectionFilterItems: [TabSubSection] {
+        switch self {
         case .all: []
+        case .book: []
         case .audio(let subSection): subSection == .allAudio ? [.allAudio, .album, .song, .podcast] : []
         case .video(let subSection): subSection == .allVideo ? [.allVideo, .tvshow, .movie, .shortfilm] : []
         case .app(let subSection): subSection == .allApp ? [.allApp, .iPhoneApp, .iPadApp, .macApp] : []
-        case .book: []
+        }
+    }
+    
+    var isAll: Bool {
+        switch self {
+        case .all: true
+        case .book: false
+        case .audio(let subSection): subSection == .allAudio ? true : false
+        case .video(let subSection): subSection == .allVideo ? true : false
+        case .app(let subSection): subSection == .allApp ? true : false
+        }
+    }
+    
+    var subSection: TabSubSection {
+        switch self {
+        case .all: .all
+        case .book: .ebook
+        case .audio(let subSection): subSection
+        case .video(let subSection): subSection
+        case .app(let subSection): subSection
         }
     }
 }
 
 /// Tab Sub-Section Items
 enum TabSubSection: Equatable, Identifiable, Hashable {
+    case all
     case allAudio
     case album
     case song
@@ -99,6 +128,7 @@ enum TabSubSection: Equatable, Identifiable, Hashable {
     
     var title: String {
         switch self {
+        case .all: "All"
         case .allAudio: "All Audio"
         case .album: "Albums"
         case .song: "Songs"
@@ -117,6 +147,7 @@ enum TabSubSection: Equatable, Identifiable, Hashable {
     
     var image: String {
         switch self {
+        case .all: "list.bullet.rectangle"
         case .allAudio: "music.note.house"
         case .album: "music.note.list"
         case .song: "music.note"
@@ -130,6 +161,13 @@ enum TabSubSection: Equatable, Identifiable, Hashable {
         case .iPadApp:"apps.ipad.landscape"
         case .macApp: "desktopcomputer"
         case .ebook: "books.vertical"
+        }
+    }
+    
+    var isAll: Bool {
+        switch self {
+        case .allAudio, .allVideo, .allApp: return true
+        default: return false
         }
     }
             

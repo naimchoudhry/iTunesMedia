@@ -9,10 +9,6 @@ import SwiftUI
 
 @Observable
 class TabRootViewModel {
-    
-    deinit {
-        print("TabRootViewModel deinit")
-    }
     var searchText: String = ""
     var selectedTab: TabMainSection = .all
     

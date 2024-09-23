@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SearchBar: View {
+struct SearchBarView: View {
     
     @Binding var text: String
     @FocusState private var isFocused
@@ -70,5 +70,5 @@ struct SearchBar: View {
 }
 
 #Preview {
-    SearchBar(text: .constant(""))
+    SearchBarView(text: .constant(""))
 }

@@ -18,7 +18,7 @@ struct TabRootView: View {
                     TabSection  {
                         ForEach(subSections) { subSection in
                             Tab(subSection.subTitle, systemImage: subSection.subImage, value: subSection) {
-                                AllListView(title: subSection.subTitle, subSectionItems: [])
+                                tabView(section: subSection, filterItems: [])
                             }
                         }
                     } header: {
@@ -26,12 +26,20 @@ struct TabRootView: View {
                     }
                 } else {
                     Tab(section.title, systemImage: section.image, value: section) {
-                        AllListView(title: section.title, subSectionItems: section.subSectionItems)
+                        tabView(section: section, filterItems: section.subSectionFilterItems)
                     }
                 }
             }
         }
         .tabViewStyle(.sidebarAdaptable)
+    }
+    
+    @ViewBuilder func tabView(section: TabMainSection, filterItems: [TabSubSection]) -> some View {
+        if section.isAll {
+            AllView(section: section, subSectionFilterItems: filterItems)
+        } else {
+            DetailView(section: section)
+        }
     }
 }
 
