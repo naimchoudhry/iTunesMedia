@@ -1,0 +1,46 @@
+//
+//  AllListView.swift
+//  iTunesMedia
+//
+//  Created by Naim Choudhry on 21/09/2024.
+//
+
+import SwiftUI
+
+struct AllListView: View {
+    let section: TabMainSection
+    @Bindable var viewModel: TabRootViewModel
+    @State var router: Router
+    
+    @State var title: String = ""
+    
+    var body: some View {
+        VStack {
+            ScrollView {
+                LazyVStack {
+                    ForEach(section.subSectionItems) { subSection in
+                        if let items = viewModel.results[subSection], items.count > 0 {
+                            SectionHeaderView(title: subSection.title, action: {
+                                _ = router.routeTo(.push) { _ in
+                                    DetailListView(subSection: subSection, viewModel: viewModel, router: router)
+                                        .navigationTitle(subSection.title)
+                                        .navigationBarTitleDisplayMode(.large)
+                                }
+                            })
+                            if subSection.subSectionLayoutStyle == .grouped {
+                                HorizontalGridSectionView(items: viewModel.itemsFor(subSection: subSection), subSection: subSection)
+                            } else {
+                                HorizontalSectionView(items: viewModel.itemsFor(subSection: subSection), subSection: subSection)
+                            }
+                        }
+                    }
+                }
+            }
+            Spacer()
+        }
+    }
+}
+
+#Preview {
+    AllListView(section: .audio(.album), viewModel: TabRootViewModel(), router: Router())
+}
