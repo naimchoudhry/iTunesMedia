@@ -9,11 +9,24 @@ import SwiftUI
 
 struct DetailListView: View {
     let subSection: TabSubSection
+    @Bindable var viewModel: TabRootViewModel
+    
     var body: some View {
         List {
-            let content = 1...200
-            ForEach(content, id: \.self) { index in
-                Text("Details for \(index)")
+            ForEach(viewModel.itemsFor(subSection: subSection)) { media in
+                HStack(alignment: .top) {
+                    ImageLoadView(urlString: media.artworkUrl100, size: 100, rounding: subSection.imageRounding)
+                    
+                    VStack(alignment: .leading) {
+                        Text(media.title(forSubSection: subSection))
+                            .font(.headline)
+                            .lineLimit(2)
+                        Text(media.artistName)
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                            .lineLimit(1)
+                    }
+                }
             }
         }
         .listStyle(.plain)
@@ -21,5 +34,5 @@ struct DetailListView: View {
 }
 
 #Preview {
-    DetailListView(subSection: .album)
+    DetailListView(subSection: .album, viewModel: TabRootViewModel())
 }

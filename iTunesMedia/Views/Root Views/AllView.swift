@@ -20,31 +20,20 @@ struct AllView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                HStack {
-                    Text(title)
-                        .font(.largeTitle).bold()
-                    Spacer()
-                    if viewModel.isSearching {
-                        ProgressView()
-                    } else {
-                        Image(systemName: "sparkle.magnifyingglass")
-                            .font(.title)
-                    }
-                    Text(viewModel.lastSearchText)
-                        .font(.largeTitle).bold()
-                }
-                
-                .padding(.horizontal)
+                HeaderView(isSearching: $viewModel.isSearching, lastSearchText: $viewModel.lastSearchText, title: $title)
+                    .padding(.horizontal)
                 
                 SearchBarView(text: $viewModel.searchText)
                     .onSubmit {
                         viewModel.search()
                     }
+                
                 if showSubSections {
                     SectionPickerView(subSectionItems: subSectionFilterItems, selectedSubSection: $selectedSubSection)
                 }
+                
                 if let selectedSubSection, !selectedSubSection.isAll {
-                    DetailListView(subSection: selectedSubSection)
+                    DetailListView(subSection: selectedSubSection, viewModel: viewModel)
                 } else {
                     AllListView(section: section, viewModel: viewModel)
                 }

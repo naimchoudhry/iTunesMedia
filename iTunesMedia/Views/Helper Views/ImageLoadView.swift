@@ -17,6 +17,7 @@ struct ImageLoadView: View {
         AsyncImage(url: URL(string: urlString)) { phase in
             if let image = phase.image {
                 image
+                    .frame(width: size, alignment: .center)
                     .iflet(rounding) { view, rounding in
                         view.clipShape(RoundedRectangle(cornerRadius: rounding))
                     }

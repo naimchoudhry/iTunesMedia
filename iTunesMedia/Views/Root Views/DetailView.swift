@@ -9,19 +9,29 @@ import SwiftUI
 
 struct DetailView: View {
     let section: TabMainSection
-    @State var searchText: String = ""
+    @Bindable var viewModel: TabRootViewModel
+    @State private var title: String = ""
     
     var body: some View {
         NavigationStack {
             VStack {
-                Text(section.subTitle).font(.largeTitle).bold()
-                SearchBarView(text: $searchText)
-                DetailListView(subSection: section.subSection)
+                HeaderView(isSearching: $viewModel.isSearching, lastSearchText: $viewModel.lastSearchText, title: $title)
+                    .padding(.horizontal)
+                
+                SearchBarView(text: $viewModel.searchText)
+                    .onSubmit {
+                        viewModel.search()
+                    }
+                
+                DetailListView(subSection: section.subSection, viewModel: viewModel)
             }
+        }
+        .onAppear {
+            title = section.subTitle
         }
     }
 }
 
 #Preview {
-    DetailView(section: .audio(.album))
+    DetailView(section: .audio(.album), viewModel: TabRootViewModel())
 }

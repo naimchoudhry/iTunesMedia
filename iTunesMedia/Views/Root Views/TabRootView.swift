@@ -38,7 +38,7 @@ struct TabRootView: View {
         if section.isAll {
             AllView(section: section, subSectionFilterItems: filterItems, viewModel: tabRootViewModel)
         } else {
-            DetailView(section: section)
+            DetailView(section: section, viewModel: tabRootViewModel)
         }
     }
 }

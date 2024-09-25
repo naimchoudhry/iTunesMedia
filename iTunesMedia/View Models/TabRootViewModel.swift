@@ -31,6 +31,10 @@ class TabRootViewModel {
             })
     }
     
+    func itemsFor(subSection: TabSubSection) -> [MediaItem] {
+        results[subSection] ?? []
+    }
+    
     func search() {
         guard searchText.isEmpty == false else { return }
         lastSearchText = searchText + "... "

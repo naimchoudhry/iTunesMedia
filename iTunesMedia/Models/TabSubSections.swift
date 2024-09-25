@@ -53,7 +53,7 @@ enum TabSubSection: Equatable, Identifiable, Hashable, CaseIterable {
         case .song: "music.note"
         case .podcast: "airplayaudio"
         case .allVideo: "tv"
-        case .tvshow: "play.tv.fill"
+        case .tvshow: "sparkles.tv"
         case .tvEpisode : "play.tv"
         case .movie: "film"
         case .shortfilm: "video"
@@ -106,8 +106,8 @@ enum TabSubSection: Equatable, Identifiable, Hashable, CaseIterable {
     var imageRounding: CGFloat? {
         switch self {
         case .song, .iPhoneApp, .shortfilm, .tvEpisode: 8
-        case .iPadApp, .podcast: 12
-        case .macApp: 16
+        case .podcast: 12
+        case .iPadApp, .macApp: 16
         default: nil
         }
     }

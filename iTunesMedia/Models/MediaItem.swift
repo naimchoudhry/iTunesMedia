@@ -53,8 +53,9 @@ struct MediaItem: Identifiable, Decodable, Hashable {
     
     func title(forSubSection subSection: TabSubSection) -> String {
         switch subSection {
-        case .iPhoneApp, .iPadApp, .tvEpisode, .ebook, .macApp: return trackName
-        default: return collectionName
+        case .iPhoneApp, .iPadApp, .tvEpisode, .ebook, .macApp:  trackName
+        case .movie: trackName.isEmpty ? collectionName : trackName
+        default:  collectionName
         }
     }
 }

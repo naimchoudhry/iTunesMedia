@@ -18,7 +18,6 @@ struct HorizontalGridSectionView: View {
             LazyHGrid(rows: rows, spacing: 15) {
                 ForEach(items) { media in
                     HStack {
-                        
                         ImageLoadView(urlString: media.artworkUrl60, size: 60, rounding: subSection.imageRounding)
                         
                         VStack(alignment: .leading) {
