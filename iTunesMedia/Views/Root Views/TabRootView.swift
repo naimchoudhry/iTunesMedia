@@ -36,7 +36,7 @@ struct TabRootView: View {
     
     @ViewBuilder func tabView(section: TabMainSection, filterItems: [TabSubSection]) -> some View {
         if section.isAll {
-            AllView(section: section, subSectionFilterItems: filterItems)
+            AllView(section: section, subSectionFilterItems: filterItems, viewModel: tabRootViewModel)
         } else {
             DetailView(section: section)
         }

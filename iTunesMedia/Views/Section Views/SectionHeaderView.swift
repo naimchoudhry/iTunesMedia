@@ -20,14 +20,14 @@ struct SectionHeaderView: View {
                 Text("See All")
                 Image(systemName: "chevron.right")
             }
+            .disabled(action == nil)
             .foregroundStyle(.tint)
             .contentShape(.rect)
             .onTapGesture {
                 action?()
             }
-            .disabled(action == nil)
+            
         }
-        
         .padding(.horizontal)
     }
 }

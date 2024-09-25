@@ -10,8 +10,8 @@ import SwiftUI
 struct AllView: View {
     let section: TabMainSection
     let subSectionFilterItems: [TabSubSection]
+    @Bindable var viewModel: TabRootViewModel
     @State private var title: String = ""
-    @State private var searchText: String = ""
     @State private var selectedSubSection: TabSubSection?
     private var showSubSections: Bool {
         !subSectionFilterItems.isEmpty
@@ -20,16 +20,33 @@ struct AllView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                Text(title).font(.largeTitle).bold()
-                SearchBarView(text: $searchText)
+                HStack {
+                    Text(title)
+                        .font(.largeTitle).bold()
+                    Spacer()
+                    if viewModel.isSearching {
+                        ProgressView()
+                    } else {
+                        Image(systemName: "sparkle.magnifyingglass")
+                            .font(.title)
+                    }
+                    Text(viewModel.lastSearchText)
+                        .font(.largeTitle).bold()
+                }
+                
+                .padding(.horizontal)
+                
+                SearchBarView(text: $viewModel.searchText)
+                    .onSubmit {
+                        viewModel.search()
+                    }
                 if showSubSections {
                     SectionPickerView(subSectionItems: subSectionFilterItems, selectedSubSection: $selectedSubSection)
                 }
                 if let selectedSubSection, !selectedSubSection.isAll {
                     DetailListView(subSection: selectedSubSection)
-                    
                 } else {
-                    AllListView(section: section)
+                    AllListView(section: section, viewModel: viewModel)
                 }
             }
         }
@@ -48,5 +65,5 @@ struct AllView: View {
 }
 
 #Preview {
-    AllView(section: .audio(.allAudio), subSectionFilterItems: [])
+    AllView(section: .audio(.allAudio), subSectionFilterItems: [], viewModel: TabRootViewModel())
 }
