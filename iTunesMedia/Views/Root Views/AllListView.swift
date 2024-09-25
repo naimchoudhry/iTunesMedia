@@ -21,16 +21,16 @@ struct AllListView: View {
                     ForEach(section.subSectionItems) { subSection in
                         if let items = viewModel.results[subSection], items.count > 0 {
                             SectionHeaderView(title: subSection.title, action: {
-                                _ = router.routeTo(.push) { _ in
+                                router = router.routeTo(.push) { _ in
                                     DetailListView(subSection: subSection, viewModel: viewModel, router: router)
                                         .navigationTitle(subSection.title)
                                         .navigationBarTitleDisplayMode(.large)
                                 }
                             })
                             if subSection.subSectionLayoutStyle == .grouped {
-                                HorizontalGridSectionView(items: viewModel.itemsFor(subSection: subSection), subSection: subSection)
+                                HorizontalGridSectionView(items: viewModel.itemsFor(subSection: subSection), subSection: subSection, router: router)
                             } else {
-                                HorizontalSectionView(items: viewModel.itemsFor(subSection: subSection), subSection: subSection)
+                                HorizontalSectionView(items: viewModel.itemsFor(subSection: subSection), subSection: subSection, router: router)
                             }
                         }
                     }

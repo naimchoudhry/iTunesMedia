@@ -25,13 +25,14 @@ struct MediaItem: Identifiable, Decodable, Hashable {
     let trackCount: Int
     let currency: String
     let primaryGenreName: String
+    let description: String?
 
     enum CodingKeys: String, CodingKey {
         case id = "collectionId"
         case artistName, collectionName
         case artistViewURL = "artistViewUrl"
         case previewURL = "previewUrl"
-        case artworkUrl60, artworkUrl100, collectionPrice, trackName, trackCount, currency, primaryGenreName
+        case artworkUrl60, artworkUrl100, collectionPrice, trackName, trackCount, currency, primaryGenreName, description
     }
     
     init(from decoder: Decoder) throws {
@@ -49,6 +50,7 @@ struct MediaItem: Identifiable, Decodable, Hashable {
         self.trackCount = try container.decodeIfPresent(Int.self, forKey: .trackCount) ?? 0
         self.currency = try container.decode(String.self, forKey: .currency)
         self.primaryGenreName = try container.decodeIfPresent(String.self, forKey: .primaryGenreName) ?? ""
+        self.description = try container.decodeIfPresent(String.self, forKey: .description) ?? nil
     }
     
     func title(forSubSection subSection: TabSubSection) -> String {

@@ -31,7 +31,12 @@ struct TabRootView: View {
                 }
             }
         }
+        .tint(.green)
         .tabViewStyle(.sidebarAdaptable)
+        .onAppear {
+            print("TabRootView - onAppear")
+            tabRootViewModel.searchLast()
+        }
     }
     
     @ViewBuilder func tabView(section: TabMainSection, filterItems: [TabSubSection]) -> some View {

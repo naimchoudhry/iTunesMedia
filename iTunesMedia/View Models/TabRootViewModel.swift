@@ -11,11 +11,12 @@ import SwiftUI
 @Observable
 class TabRootViewModel {
     var searchText: String = ""
-    var lastSearchText: String = ""
+    var lastSearchText: String = "Loyds"
     var isSearching = false
     var selectedTab: TabMainSection = .all
     var results: [TabSubSection:[MediaItem]] = [:]
     let service = APIService()
+    var settings = UserStorage.shared
     
     init() {
         print("TabRootViewModel - INIT")
@@ -40,25 +41,34 @@ class TabRootViewModel {
     
     func search() {
         guard searchText.isEmpty == false else { return }
-        lastSearchText = searchText + "... "
+        search(term: searchText)
+    }
+    
+    func searchLast() {
+        search(term: settings.lastSearchTerm)
+    }
+    
+    private func search(term: String) {
+        lastSearchText = term + "... "
         isSearching = true
         results = [:]
         Task {
             await withTaskGroup(of: Bool.self) { taskGroup in
                 for subSection in TabSubSection.allApiEntities {
                     taskGroup.addTask {
-                        await self.search(subSection: subSection)
+                        await self.search(term: term, subSection: subSection)
                     }
                 }
             }
-            lastSearchText = searchText
+            lastSearchText = term
+            settings.lastSearchTerm = term
             isSearching = false
         }
     }
     
-    func search(subSection: TabSubSection) async -> Bool {
+    private func search(term: String, subSection: TabSubSection) async -> Bool {
         do {
-            let items = try await service.fetchMedia(searchTerm: searchText, entity: subSection.apiEntityName ?? "", page: nil, limit: nil)
+            let items = try await service.fetchMedia(searchTerm: term, entity: subSection.apiEntityName ?? "", page: nil, limit: nil)
             results[subSection] = items
             print(subSection.title, items.count)
             return true

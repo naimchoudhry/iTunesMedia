@@ -1,6 +1,5 @@
 //
 //  RoutingView.swift
-//  GANSocial
 //
 //  Created by Naim Choudhry on 18/08/2024.
 //
@@ -41,7 +40,6 @@ struct RoutingView<Content: View>: View {
                             } 
                     }
             }
-            
             .sheet(item: $router.presentingSheet) { destination in
                 destination.view
             }
