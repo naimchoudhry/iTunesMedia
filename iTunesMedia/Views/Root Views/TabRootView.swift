@@ -35,11 +35,14 @@ struct TabRootView: View {
     }
     
     @ViewBuilder func tabView(section: TabMainSection, filterItems: [TabSubSection]) -> some View {
-        if section.isAll {
-            AllView(section: section, subSectionFilterItems: filterItems, viewModel: tabRootViewModel)
-        } else {
-            DetailView(section: section, viewModel: tabRootViewModel)
+        let destination = Router.startRoute { router in
+            if section.isAll {
+                AllView(section: section, subSectionFilterItems: filterItems, viewModel: tabRootViewModel, router: router)
+            } else {
+                DetailView(section: section, viewModel: tabRootViewModel, router: router)
+            }
         }
+        destination.view
     }
 }
 

@@ -10,6 +10,7 @@ import SwiftUI
 struct DetailListView: View {
     let subSection: TabSubSection
     @Bindable var viewModel: TabRootViewModel
+    @State var router: Router
     
     var body: some View {
         List {
@@ -34,5 +35,5 @@ struct DetailListView: View {
 }
 
 #Preview {
-    DetailListView(subSection: .album, viewModel: TabRootViewModel())
+    DetailListView(subSection: .album, viewModel: TabRootViewModel(), router: Router())
 }

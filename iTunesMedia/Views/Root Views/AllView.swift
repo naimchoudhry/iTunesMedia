@@ -11,6 +11,8 @@ struct AllView: View {
     let section: TabMainSection
     let subSectionFilterItems: [TabSubSection]
     @Bindable var viewModel: TabRootViewModel
+    @State var router: Router
+    
     @State private var title: String = ""
     @State private var selectedSubSection: TabSubSection?
     private var showSubSections: Bool {
@@ -18,27 +20,27 @@ struct AllView: View {
     }
     
     var body: some View {
-        NavigationStack {
-            VStack {
-                HeaderView(isSearching: $viewModel.isSearching, lastSearchText: $viewModel.lastSearchText, title: $title)
-                    .padding(.horizontal)
-                
-                SearchBarView(text: $viewModel.searchText)
-                    .onSubmit {
-                        viewModel.search()
-                    }
-                
-                if showSubSections {
-                    SectionPickerView(subSectionItems: subSectionFilterItems, selectedSubSection: $selectedSubSection)
+        
+        VStack {
+            HeaderView(isSearching: $viewModel.isSearching, lastSearchText: $viewModel.lastSearchText, title: $title)
+                .padding(.horizontal)
+            
+            SearchBarView(text: $viewModel.searchText)
+                .onSubmit {
+                    viewModel.search()
                 }
-                
-                if let selectedSubSection, !selectedSubSection.isAll {
-                    DetailListView(subSection: selectedSubSection, viewModel: viewModel)
-                } else {
-                    AllListView(section: section, viewModel: viewModel)
-                }
+            
+            if showSubSections {
+                SectionPickerView(subSectionItems: subSectionFilterItems, selectedSubSection: $selectedSubSection)
+            }
+            
+            if let selectedSubSection, !selectedSubSection.isAll {
+                DetailListView(subSection: selectedSubSection, viewModel: viewModel, router: router)
+            } else {
+                AllListView(section: section, viewModel: viewModel, router: router)
             }
         }
+        
         .onAppear {
             title = section.subTitle
             if showSubSections, selectedSubSection == nil {
@@ -54,5 +56,5 @@ struct AllView: View {
 }
 
 #Preview {
-    AllView(section: .audio(.allAudio), subSectionFilterItems: [], viewModel: TabRootViewModel())
+    AllView(section: .audio(.allAudio), subSectionFilterItems: [], viewModel: TabRootViewModel(), router: Router())
 }

@@ -10,21 +10,21 @@ import SwiftUI
 struct DetailView: View {
     let section: TabMainSection
     @Bindable var viewModel: TabRootViewModel
+    @State var router: Router
+    
     @State private var title: String = ""
     
     var body: some View {
-        NavigationStack {
-            VStack {
-                HeaderView(isSearching: $viewModel.isSearching, lastSearchText: $viewModel.lastSearchText, title: $title)
-                    .padding(.horizontal)
-                
-                SearchBarView(text: $viewModel.searchText)
-                    .onSubmit {
-                        viewModel.search()
-                    }
-                
-                DetailListView(subSection: section.subSection, viewModel: viewModel)
-            }
+        VStack {
+            HeaderView(isSearching: $viewModel.isSearching, lastSearchText: $viewModel.lastSearchText, title: $title)
+                .padding(.horizontal)
+            
+            SearchBarView(text: $viewModel.searchText)
+                .onSubmit {
+                    viewModel.search()
+                }
+            
+            DetailListView(subSection: section.subSection, viewModel: viewModel, router: router)
         }
         .onAppear {
             title = section.subTitle
@@ -33,5 +33,5 @@ struct DetailView: View {
 }
 
 #Preview {
-    DetailView(section: .audio(.album), viewModel: TabRootViewModel())
+    DetailView(section: .audio(.album), viewModel: TabRootViewModel(), router: Router())
 }

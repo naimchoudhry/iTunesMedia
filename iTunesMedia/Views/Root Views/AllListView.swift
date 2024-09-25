@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct AllListView: View {
-    
     let section: TabMainSection
     @Bindable var viewModel: TabRootViewModel
+    @State var router: Router
+    
     @State var title: String = ""
-    @State var searchText: String = ""
     
     var body: some View {
         VStack {
@@ -20,11 +20,17 @@ struct AllListView: View {
                 LazyVStack {
                     ForEach(section.subSectionItems) { subSection in
                         if let items = viewModel.results[subSection], items.count > 0 {
-                            SectionHeaderView(title: subSection.title, action: {})
+                            SectionHeaderView(title: subSection.title, action: {
+                                _ = router.routeTo(.push) { _ in
+                                    DetailListView(subSection: subSection, viewModel: viewModel, router: router)
+                                        .navigationTitle(subSection.title)
+                                        .navigationBarTitleDisplayMode(.large)
+                                }
+                            })
                             if subSection.subSectionLayoutStyle == .grouped {
-                                HorizontalGridSectionView(items: viewModel.results[subSection] ?? [], subSection: subSection)
+                                HorizontalGridSectionView(items: viewModel.itemsFor(subSection: subSection), subSection: subSection)
                             } else {
-                                HorizontalSectionView(items: viewModel.results[subSection] ?? [], subSection: subSection)
+                                HorizontalSectionView(items: viewModel.itemsFor(subSection: subSection), subSection: subSection)
                             }
                         }
                     }
@@ -36,5 +42,5 @@ struct AllListView: View {
 }
 
 #Preview {
-    AllListView(section: .audio(.album), viewModel: TabRootViewModel())
+    AllListView(section: .audio(.album), viewModel: TabRootViewModel(), router: Router())
 }

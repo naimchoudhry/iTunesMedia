@@ -17,18 +17,21 @@ class TabRootViewModel {
     var results: [TabSubSection:[MediaItem]] = [:]
     let service = APIService()
     
+    init() {
+        print("TabRootViewModel - INIT")
+    }
+    
+    deinit {
+        print("TabRootViewModel - DEINIT")
+    }
+    
     var tabHandler: Binding<TabMainSection> {
         Binding(
             get: {self.selectedTab},
             set: {
-                if $0 == self.selectedTab {
-                    //self.popToRootTab = $0
-                }
                 self.selectedTab = $0
-//                if self.selectedTab != self.settings.lastSelectedTab, self.selectedTab != .more {
-//                    self.settings.lastSelectedTab = self.selectedTab
-//                }
-            })
+            }
+        )
     }
     
     func itemsFor(subSection: TabSubSection) -> [MediaItem] {

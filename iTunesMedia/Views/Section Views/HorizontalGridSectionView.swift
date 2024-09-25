@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct HorizontalGridSectionView: View {
-    @State var items: [MediaItem]
+    var items: [MediaItem]
     let subSection: TabSubSection
-    //let rows = Array(repeating: GridItem(.fixed(60), spacing: 8, alignment: .leading), count: 4)
     @State var rows: [GridItem] = Array(repeating: GridItem(.fixed(60), spacing: 8, alignment: .leading), count: 4)
     
     var body: some View {
