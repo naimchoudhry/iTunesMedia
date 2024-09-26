@@ -10,6 +10,7 @@ import SwiftUI
 enum AppStorageKey {
     static let lastSearchTerm = "lastSearchTerm"
 }
+
 class UserStorage: ObservableObject {
     @AppStorage(AppStorageKey.lastSearchTerm) var lastSearchTerm: String = "Loyds"
     

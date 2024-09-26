@@ -11,13 +11,14 @@ struct HorizontalGridSectionView: View {
     var items: [MediaItem]
     let subSection: TabSubSection
     @State var router: Router?
+    let displayLimit = 50
     
     @State var rows: [GridItem] = Array(repeating: GridItem(.fixed(60), spacing: 8, alignment: .leading), count: 4)
     
     var body: some View {
         ScrollView(.horizontal) {
             LazyHGrid(rows: rows, spacing: 15) {
-                ForEach(items) { media in
+                ForEach(items.prefix(displayLimit)) { media in
                     HStack {
                         ImageLoadView(urlString: media.artworkUrl60, size: 60, rounding: subSection.imageRounding)
                         

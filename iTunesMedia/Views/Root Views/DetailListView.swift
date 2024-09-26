@@ -29,6 +29,11 @@ struct DetailListView: View {
                         .foregroundStyle(.tint)
                 }
             }
+            LoadMoreView(state: viewModel.resultsState[subSection] ?? .good,
+                         loadMore: { viewModel.fetchMore(subSection: subSection) },
+                         searchTerm: viewModel.lastSearchText)
+            .listRowSeparator(.hidden)
+            
         }
         .listStyle(.plain)
     }
