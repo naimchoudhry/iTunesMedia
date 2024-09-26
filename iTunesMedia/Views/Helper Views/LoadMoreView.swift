@@ -35,12 +35,16 @@ struct LoadMoreView: View {
                         .frame(maxWidth: .infinity)
                 }
             case .noResults:
-                HStack {
+                VStack {
+                    Image(systemName: "exclamationmark.magnifyingglass")
+                        .font(.largeTitle)
                     Text("No Results for \(searchTerm)")
-                        .foregroundStyle(.secondary)
-                        .font(.headline)
+                        .font(.title)
                         .frame(maxWidth: .infinity)
+                        .padding(.top, 30)
                 }
+                .padding()
+                .foregroundStyle(.secondary)
             case .error(let message):
             HStack {
                 Text(message)
