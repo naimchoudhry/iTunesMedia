@@ -25,6 +25,7 @@ struct HorizontalGridSectionView: View {
 
                         VStack(alignment: .leading) {
                             Text(media.title(forSubSection: subSection))
+                                .font(.subheadline)
                                 .lineLimit(2)
                             Text(media.artistName)
                                 .font(.caption)

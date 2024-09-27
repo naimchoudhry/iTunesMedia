@@ -16,33 +16,62 @@ struct AllListView: View {
     @State var title: String = ""
     
     var body: some View {
-        List {
-            ForEach(section.subSectionItems) { subSection in
-                if let items = viewModel.results[subSection], items.count > 0 {
-                    SectionHeaderView(title: subSection.title, action: {
-                        router = router.routeTo(.push) { _ in
-                            DetailListView(subSection: subSection, viewModel: viewModel, router: router)
-                                .navigationTitle(subSection.title)
-                                .navigationBarTitleDisplayMode(.large)
+        VStack {
+            ScrollView {
+                LazyVStack {
+                    ForEach(section.subSectionItems) { subSection in
+                        if let items = viewModel.results[subSection], items.count > 0 {
+                            SectionHeaderView(title: subSection.title, action: {
+                                router = router.routeTo(.push) { _ in
+                                    DetailListView(subSection: subSection, viewModel: viewModel, router: router)
+                                        .navigationTitle(subSection.title)
+                                        .navigationBarTitleDisplayMode(.large)
+                                }
+                            })
+                            if subSection.subSectionLayoutStyle == .grouped {
+                                HorizontalGridSectionView(items: viewModel.itemsFor(subSection: subSection), subSection: subSection, router: router)
+                            } else {
+                                HorizontalSectionView(items: viewModel.itemsFor(subSection: subSection), subSection: subSection, router: router)
+                            }
                         }
-                    })
-                    if subSection.subSectionLayoutStyle == .grouped {
-                        HorizontalGridSectionView(items: viewModel.itemsFor(subSection: subSection), subSection: subSection, router: router)
-                    } else {
-                        HorizontalSectionView(items: viewModel.itemsFor(subSection: subSection), subSection: subSection, router: router)
                     }
                 }
+
             }
-            .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-            .listSectionSeparator(.hidden)
-            .listRowSeparator(.hidden)
+            Spacer()
         }
-        .listStyle(.plain)
         .overlay {
             if viewModel.noResults {
                 ContentUnavailableView("No results for '\(viewModel.lastSearchText)'", systemImage: "exclamationmark.magnifyingglass", description: Text("Try another search"))
             }
         }
+//        List {
+//            ForEach(section.subSectionItems) { subSection in
+//                if let items = viewModel.results[subSection], items.count > 0 {
+//                    SectionHeaderView(title: subSection.title, action: {
+//                        router = router.routeTo(.push) { _ in
+//                            DetailListView(subSection: subSection, viewModel: viewModel, router: router)
+//                                .navigationTitle(subSection.title)
+//                                .navigationBarTitleDisplayMode(.large)
+//                        }
+//                    })
+//                    if subSection.subSectionLayoutStyle == .grouped {
+//                        HorizontalGridSectionView(items: viewModel.itemsFor(subSection: subSection), subSection: subSection, router: router)
+//                    } else {
+//                        HorizontalSectionView(items: viewModel.itemsFor(subSection: subSection), subSection: subSection, router: router)
+//                    }
+//                }
+//            }
+//            .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+//            .listSectionSeparator(.hidden)
+//            .listRowSeparator(.hidden)
+//        }
+//        .listStyle(.plain)
+//        .overlay {
+//            if viewModel.noResults {
+//                ContentUnavailableView("No results for '\(viewModel.lastSearchText)'", systemImage: "exclamationmark.magnifyingglass", description: Text("Try another search"))
+//            }
+//        }
     }
 }
 
