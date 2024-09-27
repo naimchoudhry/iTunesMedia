@@ -36,7 +36,6 @@ struct AllListView: View {
                         }
                     }
                 }
-
             }
             Spacer()
         }
@@ -45,33 +44,6 @@ struct AllListView: View {
                 ContentUnavailableView("No results for '\(viewModel.lastSearchText)'", systemImage: "exclamationmark.magnifyingglass", description: Text("Try another search"))
             }
         }
-//        List {
-//            ForEach(section.subSectionItems) { subSection in
-//                if let items = viewModel.results[subSection], items.count > 0 {
-//                    SectionHeaderView(title: subSection.title, action: {
-//                        router = router.routeTo(.push) { _ in
-//                            DetailListView(subSection: subSection, viewModel: viewModel, router: router)
-//                                .navigationTitle(subSection.title)
-//                                .navigationBarTitleDisplayMode(.large)
-//                        }
-//                    })
-//                    if subSection.subSectionLayoutStyle == .grouped {
-//                        HorizontalGridSectionView(items: viewModel.itemsFor(subSection: subSection), subSection: subSection, router: router)
-//                    } else {
-//                        HorizontalSectionView(items: viewModel.itemsFor(subSection: subSection), subSection: subSection, router: router)
-//                    }
-//                }
-//            }
-//            .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-//            .listSectionSeparator(.hidden)
-//            .listRowSeparator(.hidden)
-//        }
-//        .listStyle(.plain)
-//        .overlay {
-//            if viewModel.noResults {
-//                ContentUnavailableView("No results for '\(viewModel.lastSearchText)'", systemImage: "exclamationmark.magnifyingglass", description: Text("Try another search"))
-//            }
-//        }
     }
 }
 
