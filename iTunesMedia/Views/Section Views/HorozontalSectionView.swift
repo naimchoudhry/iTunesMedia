@@ -34,6 +34,28 @@ struct HorizontalSectionView: View {
                                 .navigationTitle(media.title(forSubSection: subSection))
                         }
                     }
+                    .contextMenu(menuItems: {
+                        Button("View", systemImage: "eye") {
+                            router?.routeTo(.push) { router in
+                                MediaItemView(media: media, subSection: subSection, router: router)
+                                    .navigationTitle(media.title(forSubSection: subSection))
+                            }
+                        }
+                        if let router, let url = URL(string: media.previewURL) {
+                            PreviewButtonView(url: url, router: router, hideImage: false)
+                        }
+                    }, preview: {
+                        NavigationView {
+                            VStack {
+                                HStack {
+                                    ItemDetailView(media: media, subSection: subSection, router: router, hidePrevieButton: true)
+                                    Spacer()
+                                }
+                                Spacer()
+                            }
+                            .padding()
+                        }
+                    })
                 }
             }
             .padding([.horizontal, .bottom])
