@@ -3,7 +3,7 @@ Demo Project for iTunes Media with iOS18 Tab View
 
 A|B
 --|--
-![iPad](https://github.com/user-attachments/assets/db42e03c-9886-4efd-ad3c-c56288c35fff)|![iPhone](https://github.com/user-attachments/assets/edb254bd-3065-4e0c-8143-ed66c2c7220d)
+<img src="https://github.com/user-attachments/assets/db42e03c-9886-4efd-ad3c-c56288c35fff" width=432 />|<img src="https://github.com/user-attachments/assets/edb254bd-3065-4e0c-8143-ed66c2c7220d" width=228/>
 
 # Description
 
