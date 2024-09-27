@@ -37,7 +37,6 @@ struct MediaItem: Identifiable, Decodable, Hashable {
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        //self.id = try container.decodeIfPresent(Int.self, forKey: .id) ?? UUID().hashValue
         self.id = UUID().hashValue
         self.artistName = try container.decode(String.self, forKey: .artistName)
         self.collectionName = try container.decodeIfPresent(String.self, forKey: .collectionName) ?? ""

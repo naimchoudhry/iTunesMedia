@@ -38,11 +38,12 @@ struct LoadMoreView: View {
                 VStack {
                     Image(systemName: "exclamationmark.magnifyingglass")
                         .font(.largeTitle)
-                    Text("No Results for \(searchTerm)")
+                    Text("No results for '\(searchTerm)'")
                         .font(.title)
-                        .frame(maxWidth: .infinity)
                         .padding(.top, 30)
+                        .multilineTextAlignment(.center)
                 }
+                .frame(maxWidth: .infinity, alignment: .center)
                 .padding()
                 .foregroundStyle(.secondary)
             case .error(let message):

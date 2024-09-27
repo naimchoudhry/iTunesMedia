@@ -16,6 +16,7 @@ struct SafariWebView: UIViewControllerRepresentable {
         return SFSafariViewController(url: url)
     }
     
-    func updateUIViewController(_ uiViewController: SFSafariViewController, context: Context) {        
+    func updateUIViewController(_ uiViewController: SFSafariViewController, context: Context) {
+        uiViewController.preferredControlTintColor = UIColor.green
     }
 }

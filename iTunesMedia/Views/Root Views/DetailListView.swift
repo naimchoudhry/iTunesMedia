@@ -20,8 +20,8 @@ struct DetailListView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .contentShape(.rect)
                         .onTapGesture {
-                            router.routeTo(.push) { _ in
-                                MediaItemView(media: media, subSection: subSection)
+                            router.routeTo(.push) { router in
+                                MediaItemView(media: media, subSection: subSection, router: router)
                                     .navigationTitle(media.title(forSubSection: subSection))
                             }
                         }

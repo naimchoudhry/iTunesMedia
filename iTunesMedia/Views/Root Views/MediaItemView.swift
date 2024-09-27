@@ -10,6 +10,7 @@ import SwiftUI
 struct MediaItemView: View {
     let media: MediaItem
     let subSection: TabSubSection
+    let router: Router?
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -19,20 +20,25 @@ struct MediaItemView: View {
                 VStack(alignment: .leading) {
                     Text(media.title(forSubSection: subSection))
                         .font(.title)
-                        .lineLimit(3)
                     Text(media.artistName)
                         .font(.title)
                         .foregroundColor(.gray)
-                        .lineLimit(3)
                 }
                 Spacer()
             }
+            if let url = URL(string: media.previewURL), let router {
+                PreviewButtonView(url: url, router: router)
+                    .font(.headline)
+                    .buttonStyle(.bordered)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.bottom)
+            }
+            
             Divider()
             if let description = media.description {
                 ScrollView(.vertical) {
-                    Text(description)
+                    Text(description.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil))
                 }
-                
             }
             Spacer()
         }

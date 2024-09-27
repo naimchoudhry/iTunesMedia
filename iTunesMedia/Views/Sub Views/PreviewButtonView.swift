@@ -7,19 +7,28 @@
 
 import SwiftUI
 
-struct PreviewButton: View {
+struct PreviewButtonView: View {
     let url: URL
     let router: Router
+    var hideImage: Bool = true
     
     var body: some View {
-        Button("Preview") {
-            router.routeTo(.sheet) { _ in
+        if hideImage {
+            Button("Preview") {
+                router.routeTo(.sheet) { _ in
+                        SafariWebView(url:url)
+                }
+            }
+        } else {
+            Button("Preview", systemImage: "\(hideImage ? "" : "tv.and.mediabox")") {
+                router.routeTo(.sheet) { _ in
                     SafariWebView(url:url)
+                }
             }
         }
     }
 }
 
 #Preview {
-    PreviewButton(url: URL(string: "https://www.apple.com")!, router: Router())
+    PreviewButtonView(url: URL(string: "https://www.apple.com")!, router: Router())
 }

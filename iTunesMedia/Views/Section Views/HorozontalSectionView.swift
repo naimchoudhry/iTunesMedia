@@ -23,32 +23,16 @@ struct HorizontalSectionView: View {
                         Text(media.artistName)
                             .foregroundColor(Color.gray)
                     }
+                    .tag(media.id)
                     .lineLimit(2)
                     .frame(width: 100)
                     .font(.caption)
                     .onTapGesture {
-                        router?.routeTo(.push) { _ in
-                            MediaItemView(media: media, subSection: subSection)
+                        router?.routeTo(.push) { router in
+                            MediaItemView(media: media, subSection: subSection, router: router)
                                 .navigationTitle(media.title(forSubSection: subSection))
                         }
                     }
-                    .contextMenu(menuItems: {
-                        Button("View", action: {})
-                        if let url = URL(string: media.previewURL), let router {
-                            PreviewButton(url: url, router: router)
-                        }
-                    }, preview: {
-                        NavigationView {
-                            VStack {
-                                HStack {
-                                    ItemDetailView(media: media, subSection: subSection, router: router)
-                                    Spacer()
-                                }
-                                Spacer()
-                            }
-                            .padding()
-                        }
-                    })
                 }
             }
             .padding([.horizontal, .bottom])

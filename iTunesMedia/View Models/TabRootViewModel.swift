@@ -16,8 +16,8 @@ class TabRootViewModel {
     var selectedTab: TabMainSection = .all
     var results: [TabSubSection:[MediaItem]] = [:]
     var resultsState: [TabSubSection: QueryState] = [:]
-    let service = APIService()
-    var settings = UserStorage.shared
+    private let service = APIService()
+    private var settings = UserStorage.shared
 
     deinit {
         print("TabRootViewModel - DEINIT")
@@ -30,6 +30,14 @@ class TabRootViewModel {
                 self.selectedTab = $0
             }
         )
+    }
+    
+    var noResults: Bool {
+        if isSearching {
+            return false
+        } else {
+            return results.values.reduce(0) {$0 + $1.count} == 0
+        }
     }
     
     func itemsFor(subSection: TabSubSection) -> [MediaItem] {
