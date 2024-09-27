@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct HeaderView: View {
+    
     @Binding var isSearching: Bool
     @Binding var lastSearchText: String
     @Binding var title: String

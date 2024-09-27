@@ -35,7 +35,7 @@ class APIService {
         return try decodeResults(type: type, data: data)
     }
     
-    private func decodeResults<T: Decodable>(type: T.Type, data: Data) throws -> T {
+    func decodeResults<T: Decodable>(type: T.Type, data: Data) throws -> T {
         do {
             return try JSONDecoder().decode(type, from: data)
         } catch {

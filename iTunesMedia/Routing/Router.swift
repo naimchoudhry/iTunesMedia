@@ -134,10 +134,6 @@ class Router {
         self.previousRouter = previousRouter
     }
     
-    deinit {
-        print("Router - DEINIT")
-    }
-    
     /// Create a new route flow using an existing router
     /// - Parameters:
     ///   - routeType: enum value of ``NavigationType``

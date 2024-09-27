@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct TabRootView: View {
+    
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @State var tabRootViewModel = TabRootViewModel()
     

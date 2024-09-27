@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct HorizontalSectionView: View {
+    
     let items: [MediaItem]
     let subSection: TabSubSection
     @State var router: Router?

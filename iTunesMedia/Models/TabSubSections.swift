@@ -9,6 +9,7 @@ import Foundation
 
 /// Tab Sub-Section Items
 enum TabSubSection: Equatable, Identifiable, Hashable, CaseIterable {
+    
     case all
     case allAudio
     case album

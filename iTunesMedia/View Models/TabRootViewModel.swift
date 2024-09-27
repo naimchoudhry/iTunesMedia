@@ -10,6 +10,7 @@ import SwiftUI
 @MainActor
 @Observable
 class TabRootViewModel {
+    
     var searchText: String = ""
     var lastSearchText: String = "Loyds"
     var isSearching = false
@@ -18,10 +19,6 @@ class TabRootViewModel {
     var resultsState: [TabSubSection: QueryState] = [:]
     private let service = APIService()
     private var settings = UserStorage.shared
-
-    deinit {
-        print("TabRootViewModel - DEINIT")
-    }
     
     var tabHandler: Binding<TabMainSection> {
         Binding(
@@ -92,7 +89,6 @@ class TabRootViewModel {
             } else {
                 resultsState[subSection] = items.count < APIService.fethcBatchLimit ? .loadedAll : .good
             }
-            print(subSection.title, items.count, "Total Count: \(results[subSection]?.count ?? 0)")
             return true
         } catch {
             print("Error for \(subSection.apiEntityName ?? "nil"): \(error)")

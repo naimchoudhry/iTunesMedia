@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ImageLoadView: View {
+    
     @State var urlString: String
     let size: CGFloat
     let rounding: CGFloat?
@@ -28,10 +29,6 @@ struct ImageLoadView: View {
                     .iflet(rounding) { view, rounding in
                         view.clipShape(RoundedRectangle(cornerRadius: rounding))
                     }
-                    .task {
-                        //print("Image Error", phase.error)
-                    }
-                
             } else {
                 ProgressView()
                     .frame(width: size)
