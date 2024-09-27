@@ -8,11 +8,11 @@ iPad|iPhone
 # Description
 
 iTunesMedia is a demo app which provides functionality for searching and displaying iTunes Media. It uses the open Apple API ‘itunes.apple.com/search', and searches through the categories: 
-ebooks, albums, songs, podcasts, tv shows, tv episodes, movies, iPhone apps, iPad apps, and mac apps. Every time a new search term is entered, the app will search all categories for the term and display the results. The results limit is set by the app to retrieve 50 items on each search category, and when in details list mode for a category, more results are automatically fetched when the user scrolls to the bottom of the list using the API paging facility.
+ebooks, albums, songs, podcasts, tv shows, tv episodes, movies, iPhone apps, iPad apps, and mac apps. Every time a new search term is entered, the app will search all categories for the term and display the results. The results limit is set by the app to retrieve 50 items on each search category, and when in details list mode for a category, more results are automatically fetched when the user scrolls to the bottom of the list using the API paging facility.  When the app is re-started, the last search term queries is used to load the startup content.
 
 This is a universal app, targeting iPhone and iPad and requires iOS 18 in order to use the new Tab View with sidebar mode on iPads. On iPhones the app works in both portrait and landscape modes.
 
-Dark mode and dynamic text are fully supported.  The app is written using SwiftUI. Testings is implemented using the new ‘Testing’ framework introduced with Xcode 16.
+Dark mode and dynamic text are fully supported.  The app is written using SwiftUI. Testings is implemented using the new ‘Swift Testing’ framework introduced with Xcode 16.
 
 # API Documentation
 
