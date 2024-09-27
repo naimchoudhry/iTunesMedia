@@ -18,7 +18,6 @@ enum TabSubSection: Equatable, Identifiable, Hashable, CaseIterable {
     case tvshow
     case tvEpisode
     case movie
-    case shortfilm
     case allApp
     case iPhoneApp
     case iPadApp
@@ -36,7 +35,6 @@ enum TabSubSection: Equatable, Identifiable, Hashable, CaseIterable {
         case .tvshow: "TV Shows"
         case .tvEpisode: "TV Episodes"
         case .movie: "Movies"
-        case .shortfilm: "Short Films"
         case .allApp: "All Apps"
         case .iPhoneApp: "iPhone Apps"
         case .iPadApp:"iPad Apps"
@@ -56,7 +54,6 @@ enum TabSubSection: Equatable, Identifiable, Hashable, CaseIterable {
         case .tvshow: "sparkles.tv"
         case .tvEpisode : "play.tv"
         case .movie: "film"
-        case .shortfilm: "video"
         case .allApp: "apps.ipad"
         case .iPhoneApp: "apps.iphone"
         case .iPadApp:"apps.ipad.landscape"
@@ -76,7 +73,6 @@ enum TabSubSection: Equatable, Identifiable, Hashable, CaseIterable {
         case .tvshow: "tvSeason"
         case .tvEpisode: "tvEpisode"
         case .movie: "movie"
-        case .shortfilm: "shortFilm"
         case .allApp: nil
         case .iPhoneApp: "software"
         case .iPadApp:"iPadSoftware"
@@ -98,14 +94,14 @@ enum TabSubSection: Equatable, Identifiable, Hashable, CaseIterable {
     
     var subSectionLayoutStyle: SubSectionLayoutStyle {
         switch self {
-        case .song, .iPhoneApp, .tvshow, .shortfilm, .tvEpisode: return .grouped
+        case .song, .iPhoneApp, .tvshow, .tvEpisode: return .grouped
         default: return .plain
         }
     }
     
     var imageRounding: CGFloat? {
         switch self {
-        case .song, .iPhoneApp, .shortfilm, .tvEpisode: 8
+        case .song, .iPhoneApp, .tvEpisode: 8
         case .podcast: 12
         case .iPadApp, .macApp: 16
         default: nil

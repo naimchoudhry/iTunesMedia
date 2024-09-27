@@ -42,6 +42,7 @@ struct AllView: View {
         }
         
         .onAppear {
+            print("All View appeared")
             title = section.subTitle
             if showSubSections, selectedSubSection == nil {
                 selectedSubSection = subSectionFilterItems.first

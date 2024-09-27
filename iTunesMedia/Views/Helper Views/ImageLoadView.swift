@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ImageLoadView: View {
-    let urlString: String
+    @State var urlString: String
     let size: CGFloat
     let rounding: CGFloat?
     
@@ -24,10 +24,14 @@ struct ImageLoadView: View {
             } else if phase.error != nil {
                 Color.gray
                     .frame(width: size)
-                    .opacity(0.2)
+                    .opacity(0.1)
                     .iflet(rounding) { view, rounding in
                         view.clipShape(RoundedRectangle(cornerRadius: rounding))
                     }
+                    .task {
+                        //print("Image Error", phase.error)
+                    }
+                
             } else {
                 ProgressView()
                     .frame(width: size)

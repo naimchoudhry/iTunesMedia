@@ -1,6 +1,5 @@
 //
 //  Destination.swift
-//  GANSocial
 //
 //  Created by Naim Choudhry on 16/08/2024.
 //

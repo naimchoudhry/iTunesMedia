@@ -11,16 +11,14 @@ import SwiftUI
 @Observable
 class TabRootViewModel {
     var searchText: String = ""
-    var lastSearchText: String = ""
+    var lastSearchText: String = "Loyds"
     var isSearching = false
     var selectedTab: TabMainSection = .all
     var results: [TabSubSection:[MediaItem]] = [:]
-    let service = APIService()
-    
-    init() {
-        print("TabRootViewModel - INIT")
-    }
-    
+    var resultsState: [TabSubSection: QueryState] = [:]
+    private let service = APIService()
+    private var settings = UserStorage.shared
+
     deinit {
         print("TabRootViewModel - DEINIT")
     }
@@ -34,37 +32,71 @@ class TabRootViewModel {
         )
     }
     
+    var noResults: Bool {
+        if isSearching {
+            return false
+        } else {
+            return results.values.reduce(0) {$0 + $1.count} == 0
+        }
+    }
+    
     func itemsFor(subSection: TabSubSection) -> [MediaItem] {
         results[subSection] ?? []
     }
     
     func search() {
         guard searchText.isEmpty == false else { return }
-        lastSearchText = searchText + "... "
-        isSearching = true
         results = [:]
+        resultsState = [:]
+        search(term: searchText)
+    }
+    
+    func searchLast() {
+        results = [:]
+        resultsState = [:]
+        search(term: settings.lastSearchTerm)
+    }
+    
+    func fetchMore(subSection: TabSubSection) {
+        guard let offset = results[subSection]?.count else { return }
+        Task {
+            await self.search(term: lastSearchText, subSection: subSection, offset: offset)
+        }
+    }
+    
+    private func search(term: String, offset: Int = 0) {
+        lastSearchText = term + "... "
+        isSearching = true
+        
         Task {
             await withTaskGroup(of: Bool.self) { taskGroup in
                 for subSection in TabSubSection.allApiEntities {
                     taskGroup.addTask {
-                        await self.search(subSection: subSection)
+                        await self.search(term: term, subSection: subSection, offset: offset)
                     }
                 }
             }
-            lastSearchText = searchText
+            lastSearchText = term
+            settings.lastSearchTerm = term
             isSearching = false
         }
     }
     
-    func search(subSection: TabSubSection) async -> Bool {
+    private func search(term: String, subSection: TabSubSection, offset: Int = 0) async -> Bool {
         do {
-            let items = try await service.fetchMedia(searchTerm: searchText, entity: subSection.apiEntityName ?? "", page: nil, limit: nil)
-            results[subSection] = items
-            print(subSection.title, items.count)
+            resultsState[subSection] = .isLoading
+            let items = try await service.fetchMedia(searchTerm: term, entity: subSection.apiEntityName ?? "", offset: offset)
+            results[subSection] = (results[subSection] ?? []) + items
+            if results[subSection]?.count == 0 {
+                resultsState[subSection] = .noResults
+            } else {
+                resultsState[subSection] = items.count < APIService.fethcBatchLimit ? .loadedAll : .good
+            }
+            print(subSection.title, items.count, "Total Count: \(results[subSection]?.count ?? 0)")
             return true
         } catch {
             print("Error for \(subSection.apiEntityName ?? "nil"): \(error)")
-            results[subSection] = []
+            resultsState[subSection] = .error("Could not load \(error.localizedDescription).")
             return false
         }
     }

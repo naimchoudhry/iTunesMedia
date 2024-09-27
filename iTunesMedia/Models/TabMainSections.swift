@@ -62,7 +62,7 @@ enum TabMainSection: Equatable, Identifiable, Hashable {
     var subSections: [TabMainSection]? {
         switch self {
         case .audio: [.audio(.allAudio), .audio(.album), .audio(.song), .audio(.podcast)]
-        case .video: [.video(.allVideo), .video(.movie), .video(.tvshow), .video(.tvEpisode), .video(.shortfilm)]
+        case .video: [.video(.allVideo), .video(.movie), .video(.tvshow), .video(.tvEpisode)]
         case .app: [.app(.allApp), .app(.iPhoneApp), .app(.iPadApp), .app(.macApp)]
         default: nil
         }
@@ -70,10 +70,10 @@ enum TabMainSection: Equatable, Identifiable, Hashable {
     
     var subSectionItems: [TabSubSection] {
         switch self {
-        case .all: [.ebook, .album, .song, .podcast, .tvshow, .tvEpisode, .movie, .shortfilm, .iPhoneApp, .iPadApp, .macApp]
+        case .all: [.ebook, .album, .song, .podcast, .tvshow, .tvEpisode, .movie, .iPhoneApp, .iPadApp, .macApp]
         case .book: []
         case .audio: [.album, .song, .podcast]
-        case .video: [.tvshow, .tvEpisode, .movie, .shortfilm]
+        case .video: [.tvshow, .tvEpisode, .movie]
         case .app: [.iPhoneApp, .iPadApp, .macApp]
         }
     }
@@ -83,7 +83,7 @@ enum TabMainSection: Equatable, Identifiable, Hashable {
         case .all: []
         case .book: []
         case .audio(let subSection): subSection == .allAudio ? [.allAudio, .album, .song, .podcast] : []
-        case .video(let subSection): subSection == .allVideo ? [.allVideo, .tvshow, .movie, .shortfilm] : []
+        case .video(let subSection): subSection == .allVideo ? [.allVideo, .tvshow, .tvEpisode, .movie] : []
         case .app(let subSection): subSection == .allApp ? [.allApp, .iPhoneApp, .iPadApp, .macApp] : []
         }
     }

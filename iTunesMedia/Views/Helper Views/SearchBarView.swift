@@ -8,13 +8,9 @@
 import SwiftUI
 
 struct SearchBarView: View {
-    
     @Binding var text: String
     @FocusState private var isFocused
-    @Environment(\.colorScheme) private var colorScheme
     @State private var cancelButtonShown = false
-    
-    //@StateObject var settings = Setting.shared
     
     var body: some View {
         HStack {
@@ -57,7 +53,6 @@ struct SearchBarView: View {
                     }
                 }
                 .padding(5)
-                //.background(settings.themeColor(forColorScheme: colorScheme))
                 .background(.tint)
                 .foregroundColor(.white)
                 .cornerRadius(5)

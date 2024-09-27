@@ -15,20 +15,25 @@ struct DetailListView: View {
     var body: some View {
         List {
             ForEach(viewModel.itemsFor(subSection: subSection)) { media in
-                HStack(alignment: .top) {
-                    ImageLoadView(urlString: media.artworkUrl100, size: 100, rounding: subSection.imageRounding)
-                    
-                    VStack(alignment: .leading) {
-                        Text(media.title(forSubSection: subSection))
-                            .font(.headline)
-                            .lineLimit(2)
-                        Text(media.artistName)
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
-                            .lineLimit(1)
-                    }
+                HStack {
+                    ItemDetailView(media: media, subSection: subSection, router: router)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .contentShape(.rect)
+                        .onTapGesture {
+                            router.routeTo(.push) { router in
+                                MediaItemView(media: media, subSection: subSection, router: router)
+                                    .navigationTitle(media.title(forSubSection: subSection))
+                            }
+                        }
+                    Image(systemName: "chevron.right")
+                        .foregroundStyle(.tint)
                 }
             }
+            LoadMoreView(state: viewModel.resultsState[subSection] ?? .good,
+                         loadMore: { viewModel.fetchMore(subSection: subSection) },
+                         searchTerm: viewModel.lastSearchText)
+            .listRowSeparator(.hidden)
+            
         }
         .listStyle(.plain)
     }

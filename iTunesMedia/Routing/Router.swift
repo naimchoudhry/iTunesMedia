@@ -1,6 +1,5 @@
 //
 //  Router.swift
-//  GANSocial
 //
 //  Created by Naim Choudhry on 16/08/2024.
 //
@@ -148,7 +147,7 @@ class Router {
     ///   - animated: To animate the transition, default is true
     ///   - hideNavigationBar: To hide the navigation bar, including the back bar item - set this on new navigation stack creation (i.e not .push routes, will be ignored on .push routes)
     /// - Returns: The new Router instance for a new navigation stack flow, or self if simply pushing a new view onto the current navigation stack
-    func routeTo<T>(_ routeType: NavigationType, animated: Bool = true, hideNavigationBar: Bool = false, @ViewBuilder destination: @escaping (Router) -> T) -> Router where T: View {
+    @discardableResult func routeTo<T>(_ routeType: NavigationType, animated: Bool = true, hideNavigationBar: Bool = false, @ViewBuilder destination: @escaping (Router) -> T) -> Router where T: View {
         var newDestination: Destination
         var newRouter = self
         if routeType == .push {
@@ -181,7 +180,7 @@ class Router {
     ///   - animated: To animate the transition, default is true **ignored for popover**
     ///   - destination: The destination view, will have the same router object passed in, so that new routes can be driven from this route, but this will not create a new navigation stack
     /// - Returns: The same router used to present this view
-    func present<T>(_ routeType: NavigationType, animated: Bool = true, @ViewBuilder destination: @escaping (Router) -> T) -> Router where T: View {
+    @discardableResult func present<T>(_ routeType: NavigationType, animated: Bool = true, @ViewBuilder destination: @escaping (Router) -> T) -> Router where T: View {
         var newDestination = Destination(destination(self))
         switch routeType {
         case .push:
@@ -219,7 +218,7 @@ class Router {
     /// If the screen **is being presented** in a sheet or full screen cover, then the screen is dismissed and the presenting router is returned.
     /// - Returns: The router in the current navigation stack flow, or the previous router if a navigation stack flow is dismissed.  This can be discarded if using the router in screen path navigation flows, or used by the view model to keep track of the current route if using the view model coordinater pattern, wheere the screen does not hold a refference to the router.
     /// - Parameter animated: Determine wether the dismiss is animated for popovers
-    func dismiss(animated: Bool = true) -> Router {
+    @discardableResult func dismiss(animated: Bool = true) -> Router {
         var router: Router = self
         
         func findAndDismiss() -> Router {
