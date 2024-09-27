@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MediaItemView: View {
+    
     let media: MediaItem
     let subSection: TabSubSection
     let router: Router?
@@ -45,7 +46,3 @@ struct MediaItemView: View {
         .padding()
     }
 }
-
-//#Preview {
-//    MediaItemView()
-//}

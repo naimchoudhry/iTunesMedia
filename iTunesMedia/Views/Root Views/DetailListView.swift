@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct DetailListView: View {
+    
     let subSection: TabSubSection
     @Bindable var viewModel: TabRootViewModel
     @State var router: Router

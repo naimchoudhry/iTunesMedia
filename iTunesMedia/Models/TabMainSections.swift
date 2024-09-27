@@ -9,6 +9,7 @@ import Foundation
 
 /// Main Tab Section Views
 enum TabMainSection: Equatable, Identifiable, Hashable {
+    
     case all
     case audio(TabSubSection)
     case video(TabSubSection)

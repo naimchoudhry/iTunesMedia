@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct LoadMoreView: View {
+    
     let state: QueryState
     let loadMore: () -> Void
     let searchTerm: String

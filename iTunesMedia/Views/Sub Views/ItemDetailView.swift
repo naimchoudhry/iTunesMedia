@@ -35,7 +35,4 @@ struct ItemDetailView: View {
         }
     }
 }
-//TODO: Add preview
-//#Preview {
-//    ItemDetailView()
-//}
+

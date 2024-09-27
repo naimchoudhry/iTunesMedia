@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SearchBarView: View {
+    
     @Binding var text: String
     @FocusState private var isFocused
     @State private var cancelButtonShown = false

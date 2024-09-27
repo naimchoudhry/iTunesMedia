@@ -13,6 +13,7 @@ struct MediaItemResult: Decodable {
 }
 
 struct MediaItem: Identifiable, Decodable, Hashable {
+    
     let id: Int
     let artistName: String
     let collectionName: String

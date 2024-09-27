@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AllView: View {
+    
     let section: TabMainSection
     let subSectionFilterItems: [TabSubSection]
     @Bindable var viewModel: TabRootViewModel
@@ -40,9 +41,7 @@ struct AllView: View {
                 AllListView(section: section, viewModel: viewModel, router: router)
             }
         }
-        
         .onAppear {
-            print("All View appeared")
             title = section.subTitle
             if showSubSections, selectedSubSection == nil {
                 selectedSubSection = subSectionFilterItems.first
