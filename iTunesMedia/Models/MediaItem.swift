@@ -55,8 +55,12 @@ struct MediaItem: Identifiable, Decodable, Hashable {
     
     func title(forSubSection subSection: TabSubSection) -> String {
         switch subSection {
-        case .iPhoneApp, .iPadApp, .tvEpisode, .ebook, .macApp:  trackName
-        case .movie: trackName.isEmpty ? collectionName : trackName
+        case .iPhoneApp, .iPadApp, .tvEpisode, .ebook, .macApp:
+            collectionName.isEmpty ? trackName : trackName + " - " + collectionName
+        case .song:
+            trackName.isEmpty ? collectionName : trackName + " - " + collectionName
+        case .movie:
+            trackName.isEmpty ? collectionName : trackName
         default:  collectionName
         }
     }
