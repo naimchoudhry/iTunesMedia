@@ -13,6 +13,7 @@ struct ItemDetailView: View {
     let subSection: TabSubSection
     let router: Router?
     var hidePrevieButton: Bool = false
+    var lineLimit: Bool = true
     
     var body: some View {
         HStack(alignment: .top) {
@@ -21,11 +22,15 @@ struct ItemDetailView: View {
             VStack(alignment: .leading) {
                 Text(media.title(forSubSection: subSection))
                     .font(.headline)
-                    .lineLimit(3)
+                    .if(lineLimit) {
+                        $0.lineLimit(3)
+                    }
                 Text(media.artistName)
                     .font(.subheadline)
                     .foregroundColor(.gray)
-                    .lineLimit(3)
+                    .if(lineLimit) {
+                        $0.lineLimit(3)
+                    }
                 if !hidePrevieButton, let url = URL(string: media.previewURL), let router {
                     PreviewButtonView(url: url, router: router)
                         .font(.caption)

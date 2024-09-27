@@ -48,7 +48,7 @@ struct HorizontalSectionView: View {
                         NavigationView {
                             VStack {
                                 HStack {
-                                    ItemDetailView(media: media, subSection: subSection, router: router, hidePrevieButton: true)
+                                    ItemDetailView(media: media, subSection: subSection, router: router, hidePrevieButton: true, lineLimit: false)
                                     Spacer()
                                 }
                                 Spacer()
