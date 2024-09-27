@@ -36,7 +36,6 @@ struct AllListView: View {
                         }
                     }
                 }
-
             }
             Spacer()
         }
