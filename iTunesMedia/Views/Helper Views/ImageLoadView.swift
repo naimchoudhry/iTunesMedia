@@ -33,12 +33,10 @@ struct ImageLoadView: View {
                         view.clipShape(RoundedRectangle(cornerRadius: rounding))
                     }
                     .task {
-                        if (phaseError as NSError).code == -999 {  // Cacnelled Error
+                        if !urlString.isEmpty && (phaseError as NSError).code == -999 {  // Cacnelled Error
                             retry = true
                             swapDelay()
-                        } else {
-                            print("Error: \(phaseError.localizedDescription)")
-                        }
+                        } 
                     }
                 
             } else {
