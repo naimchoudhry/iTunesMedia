@@ -24,7 +24,7 @@ struct HorizontalSectionView: View {
                         Text(media.artistName)
                             .foregroundColor(Color.gray)
                     }
-                    .tag(media.id)
+                    .id(media.id)
                     .lineLimit(2)
                     .frame(width: 100)
                     .font(.caption)

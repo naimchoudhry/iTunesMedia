@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HorizontalGridSectionView: View {
     
-    var items: [MediaItem]
+    let items: [MediaItem]
     let subSection: TabSubSection
     var router: Router?
     let displayLimit = 50
@@ -22,7 +22,7 @@ struct HorizontalGridSectionView: View {
                 ForEach(items.prefix(displayLimit)) { media in
                     HStack {
                         ImageLoadView(urlString: media.artworkUrl60, size: 60, rounding: subSection.imageRounding)
-
+                        
                         VStack(alignment: .leading) {
                             Text(media.title(forSubSection: subSection))
                                 .font(.subheadline)
@@ -39,7 +39,7 @@ struct HorizontalGridSectionView: View {
                                 .buttonStyle(.bordered)
                         }
                     }
-                    .tag(media.id)
+                    .id(media.id)
                     .frame(width: 300, alignment: .leading)
                     .contentShape(.rect)
                     .onTapGesture {
@@ -75,12 +75,14 @@ struct HorizontalGridSectionView: View {
             .padding([.horizontal, .bottom])
         }
         .onAppear {
+            var count = 0
             switch items.count {
-            case ...3: rows = Array(repeating: GridItem(.fixed(60), spacing: 8, alignment: .leading), count: 1)
-            case 4...7: rows = Array(repeating: GridItem(.fixed(60), spacing: 8, alignment: .leading), count: 2)
-            default: rows = Array(repeating: GridItem(.fixed(60), spacing: 8, alignment: .leading), count: 4)
+            case ...3: count = 1
+            case 4...7: count = 2
+            default: count = 4
             }
-    }
+            rows = Array(repeating: GridItem(.fixed(60), spacing: 8, alignment: .leading), count: count)
+        }
     }
 }
 
