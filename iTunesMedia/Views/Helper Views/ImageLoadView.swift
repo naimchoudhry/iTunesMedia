@@ -12,10 +12,10 @@ struct ImageLoadView: View {
     @State var urlString: String
     let size: CGFloat
     let rounding: CGFloat?
-    @State private var error = false
+    @State private var retry = false
     
     var body: some View {
-        AsyncImage(url: URL(string: urlString)) { phase in
+        AsyncImage(url: URL(string: urlString), transaction: Transaction(animation: .default)) { phase in
             if let image = phase.image {
                 image
                     .frame(width: size, alignment: .center)
@@ -23,9 +23,9 @@ struct ImageLoadView: View {
                         view.clipShape(RoundedRectangle(cornerRadius: rounding))
                     }
                     .task {
-                        error = false
+                        retry = false
                     }
-            } else if phase.error != nil {
+            } else if let phaseError = phase.error {
                 Color.gray
                     .frame(width: size)
                     .opacity(0.1)
@@ -33,20 +33,22 @@ struct ImageLoadView: View {
                         view.clipShape(RoundedRectangle(cornerRadius: rounding))
                     }
                     .task {
-                        error = true
-                        swapDelay()
+                        if !urlString.isEmpty && (phaseError as NSError).code == -999 {  // Cacnelled Error
+                            retry = true
+                            swapDelay()
+                        } 
                     }
                 
             } else {
                 ProgressView()
                     .frame(width: size)
                     .task {
-                        error = false
+                        retry = false
                     }
             }
         }
         .onAppear {
-            if error {
+            if retry {
                 swapDelay()
             }
         }

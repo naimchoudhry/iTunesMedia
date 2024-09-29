@@ -43,7 +43,7 @@ class TabRootViewModel {
     
     func search() {
         guard searchText.isEmpty == false else { return }
-        results = [:]
+        //results = [:]
         resultsState = [:]
         search(term: searchText)
     }
@@ -83,7 +83,11 @@ class TabRootViewModel {
         do {
             resultsState[subSection] = .isLoading
             let items = try await service.fetchMedia(searchTerm: term, entity: subSection.apiEntityName ?? "", offset: offset)
-            results[subSection] = (results[subSection] ?? []) + items
+            if offset == 0 {
+                results[subSection] = items
+            } else {
+                results[subSection] = (results[subSection] ?? []) + items
+            }
             if results[subSection]?.count == 0 {
                 resultsState[subSection] = .noResults
             } else {
@@ -91,6 +95,7 @@ class TabRootViewModel {
             }
             return true
         } catch {
+            results[subSection] = []
             print("Error for \(subSection.apiEntityName ?? "nil"): \(error)")
             resultsState[subSection] = .error("Could not load \(error.localizedDescription).")
             return false

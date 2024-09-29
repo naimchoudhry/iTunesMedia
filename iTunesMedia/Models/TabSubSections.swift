@@ -95,7 +95,7 @@ enum TabSubSection: Equatable, Identifiable, Hashable, CaseIterable {
     
     var subSectionLayoutStyle: SubSectionLayoutStyle {
         switch self {
-        case .song, .iPhoneApp, .tvshow, .tvEpisode: return .grouped
+        case .song, .iPhoneApp, .tvEpisode: return .grouped
         default: return .plain
         }
     }

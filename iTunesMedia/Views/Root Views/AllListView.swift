@@ -11,7 +11,7 @@ struct AllListView: View {
     
     let section: TabMainSection
     @Bindable var viewModel: TabRootViewModel
-    @State var router: Router
+    var router: Router
     
     @State var title: String = ""
     
@@ -22,7 +22,7 @@ struct AllListView: View {
                     ForEach(section.subSectionItems) { subSection in
                         if let items = viewModel.results[subSection], items.count > 0 {
                             SectionHeaderView(title: subSection.title, action: {
-                                router = router.routeTo(.push) { _ in
+                                router.routeTo(.push) { _ in
                                     DetailListView(subSection: subSection, viewModel: viewModel, router: router)
                                         .navigationTitle(subSection.title)
                                         .navigationBarTitleDisplayMode(.large)
