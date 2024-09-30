@@ -40,7 +40,7 @@ enum TabSubSection: Equatable, Identifiable, Hashable, CaseIterable {
         case .iPhoneApp: "iPhone Apps"
         case .iPadApp:"iPad Apps"
         case .macApp: "Mac Apps"
-        case .ebook: "E-Books"
+        case .ebook: "Books"
         }
     }
     

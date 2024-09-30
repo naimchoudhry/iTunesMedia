@@ -17,6 +17,7 @@ class TabRootViewModel {
     var selectedTab: TabMainSection = .all
     var results: [TabSubSection:[MediaItem]] = [:]
     var resultsState: [TabSubSection: QueryState] = [:]
+    var resetScrollViews: Bool = false
     private let service = APIService()
     private var settings = UserStorage.shared
     
@@ -43,8 +44,9 @@ class TabRootViewModel {
     
     func search() {
         guard searchText.isEmpty == false else { return }
-        //results = [:]
+        results = [:]
         resultsState = [:]
+        resetScrollViews.toggle()
         search(term: searchText)
     }
     
@@ -95,11 +97,12 @@ class TabRootViewModel {
             }
             return true
         } catch {
-            results[subSection] = []
+            if offset == 0 {
+                results[subSection] = []
+            }
             print("Error for \(subSection.apiEntityName ?? "nil"): \(error)")
             resultsState[subSection] = .error("Could not load \(error.localizedDescription).")
             return false
         }
     }
-    
 }

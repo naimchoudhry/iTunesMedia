@@ -9,15 +9,16 @@ import SwiftUI
 
 struct HorizontalSectionView: View {
     
-    let items: [MediaItem]
+    @Bindable var viewModel: TabRootViewModel
     let subSection: TabSubSection
     @State var router: Router?
     let displayLimit = 50
+    @State private var position = ScrollPosition(edge: .leading)
     
     var body: some View {
         ScrollView(.horizontal) {
             LazyHStack(alignment: .top) {
-                ForEach(items.prefix(displayLimit)) { media in
+                ForEach(viewModel.itemsFor(subSection: subSection).prefix(displayLimit)) { media in
                     VStack(alignment: .leading) {
                         ImageLoadView(urlString: media.artworkUrl100, size: 100, rounding: subSection.imageRounding)
                         Text(media.title(forSubSection: subSection))
@@ -60,9 +61,13 @@ struct HorizontalSectionView: View {
             }
             .padding([.horizontal, .bottom])
         }
+        .scrollPosition($position)
+        .onChange(of: viewModel.resetScrollViews) {
+            position.scrollTo(edge: .leading)
+        }
     }
 }
 
 #Preview {
-    HorizontalSectionView(items: [], subSection: .album)
+    HorizontalSectionView(viewModel: TabRootViewModel(), subSection: .album)
 }

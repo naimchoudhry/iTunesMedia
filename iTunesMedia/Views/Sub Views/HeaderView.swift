@@ -31,5 +31,5 @@ struct HeaderView: View {
 }
 
 #Preview {
-    HeaderView(isSearching: .constant(true), lastSearchText: .constant("test"), title: .constant(   "All"))
+    HeaderView(isSearching: .constant(true), lastSearchText: .constant("test"), title: .constant("All"))
 }

@@ -29,6 +29,28 @@ struct DetailListView: View {
                     Image(systemName: "chevron.right")
                         .foregroundStyle(.tint)
                 }
+                .contextMenu(menuItems: {
+                    Button("View", systemImage: "eye") {
+                        router.routeTo(.push) { router in
+                            MediaItemView(media: media, subSection: subSection, router: router)
+                                .navigationTitle(media.title(forSubSection: subSection))
+                        }
+                    }
+                    if let url = URL(string: media.previewURL) {
+                        PreviewButtonView(url: url, router: router, hideImage: false)
+                    }
+                }, preview: {
+                    NavigationView {
+                        VStack {
+                            HStack {
+                                ItemDetailView(media: media, subSection: subSection, router: router, hidePrevieButton: true, lineLimit: false)
+                                Spacer()
+                            }
+                            Spacer()
+                        }
+                        .padding()
+                    }
+                })
             }
             LoadMoreView(state: viewModel.resultsState[subSection] ?? .good,
                          loadMore: { viewModel.fetchMore(subSection: subSection) },
