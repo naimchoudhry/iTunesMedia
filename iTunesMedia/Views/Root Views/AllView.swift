@@ -28,7 +28,9 @@ struct AllView: View {
             
             SearchBarView(text: $viewModel.searchText)
                 .onSubmit {
-                    viewModel.search()
+                    withAnimation {
+                        viewModel.search()
+                    }
                 }
             
             if showSubSections {
