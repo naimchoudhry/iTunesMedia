@@ -9,17 +9,18 @@ import SwiftUI
 
 struct HorizontalGridSectionView: View {
     
-    let items: [MediaItem]
+    @Bindable var viewModel: TabRootViewModel
     let subSection: TabSubSection
     var router: Router?
     let displayLimit = 50
     
-    @State var rows: [GridItem] = Array(repeating: GridItem(.fixed(60), spacing: 8, alignment: .leading), count: 4)
+    @State private var rows: [GridItem] = Array(repeating: GridItem(.fixed(60), spacing: 8, alignment: .leading), count: 4)
+    @State private var position = ScrollPosition(edge: .leading)
     
     var body: some View {
         ScrollView(.horizontal) {
             LazyHGrid(rows: rows, spacing: 15) {
-                ForEach(items.prefix(displayLimit)) { media in
+                ForEach(viewModel.itemsFor(subSection: subSection).prefix(displayLimit)) { media in
                     HStack {
                         ImageLoadView(urlString: media.artworkUrl60, size: 60, rounding: subSection.imageRounding)
                         
@@ -74,9 +75,13 @@ struct HorizontalGridSectionView: View {
             }
             .padding([.horizontal, .bottom])
         }
+        .scrollPosition($position)
+        .onChange(of: viewModel.resetScrollViews) {
+            position.scrollTo(edge: .leading)
+        }
         .onAppear {
             var count = 0
-            switch items.count {
+            switch viewModel.itemsFor(subSection: subSection).count {
             case ...3: count = 1
             case 4...7: count = 2
             default: count = 4
@@ -87,6 +92,6 @@ struct HorizontalGridSectionView: View {
 }
 
 #Preview {
-    HorizontalGridSectionView(items: [], subSection: .album, router: Router())
+    HorizontalGridSectionView(viewModel: TabRootViewModel(), subSection: .album, router: Router())
 }
 

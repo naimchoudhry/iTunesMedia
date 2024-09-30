@@ -15,39 +15,42 @@ struct LoadMoreView: View {
     
     var body: some View {
         switch state {
-            case .good:
-                Color.clear
-                    .onAppear {
-                        loadMore()
-                    }
-            case .isLoading:
-                HStack {
-                    ProgressView() {
-                        Text("Fetching more results...")
-                    }
+        case .good:
+            Color.clear
+                .onAppear {
+                    loadMore()
+                }
+            
+        case .isLoading:
+            HStack {
+                ProgressView() {
+                    Text("Fetching more results...")
+                }
+                .frame(maxWidth: .infinity)
+            }
+            
+        case .loadedAll:
+            HStack {
+                Text("No more results found for '\(searchTerm)'")
+                    .foregroundStyle(.secondary)
+                    .font(.headline)
                     .frame(maxWidth: .infinity)
-                    .id(UUID())
-                }
-            case .loadedAll:
-                HStack {
-                    Text("No more results found for '\(searchTerm)'")
-                        .foregroundStyle(.secondary)
-                        .font(.headline)
-                        .frame(maxWidth: .infinity)
-                }
-            case .noResults:
-                VStack {
-                    Image(systemName: "exclamationmark.magnifyingglass")
-                        .font(.largeTitle)
-                    Text("No results for '\(searchTerm)'")
-                        .font(.title)
-                        .padding(.top, 30)
-                        .multilineTextAlignment(.center)
-                }
-                .frame(maxWidth: .infinity, alignment: .center)
-                .padding()
-                .foregroundStyle(.secondary)
-            case .error(let message):
+            }
+            
+        case .noResults:
+            VStack {
+                Image(systemName: "exclamationmark.magnifyingglass")
+                    .font(.largeTitle)
+                Text("No results for '\(searchTerm)'")
+                    .font(.title)
+                    .padding(.top, 30)
+                    .multilineTextAlignment(.center)
+            }
+            .frame(maxWidth: .infinity, alignment: .center)
+            .padding()
+            .foregroundStyle(.secondary)
+            
+        case .error(let message):
             HStack {
                 Text(message)
                     .foregroundColor(.red)

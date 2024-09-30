@@ -14,6 +14,7 @@ struct AllListView: View {
     var router: Router
     
     @State var title: String = ""
+    @State private var position = ScrollPosition(edge: .top)
     
     var body: some View {
         VStack {
@@ -29,20 +30,24 @@ struct AllListView: View {
                                 }
                             })
                             if subSection.subSectionLayoutStyle == .grouped {
-                                HorizontalGridSectionView(items: viewModel.itemsFor(subSection: subSection), subSection: subSection, router: router)
+                                HorizontalGridSectionView(viewModel: viewModel, subSection: subSection, router: router)
                             } else {
-                                HorizontalSectionView(items: viewModel.itemsFor(subSection: subSection), subSection: subSection, router: router)
+                                HorizontalSectionView(viewModel: viewModel, subSection: subSection, router: router)
                             }
                         }
                     }
                 }
             }
+            .scrollPosition($position)
             Spacer()
         }
         .overlay {
             if viewModel.noResults {
                 ContentUnavailableView("No results for '\(viewModel.lastSearchText)'", systemImage: "exclamationmark.magnifyingglass", description: Text("Try another search"))
             }
+        }
+        .onChange(of: viewModel.resetScrollViews) {
+            position.scrollTo(edge: .top)
         }
     }
 }
