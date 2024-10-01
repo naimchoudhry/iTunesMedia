@@ -45,13 +45,12 @@ class APIService {
     
     func createURL(for searchTerm: String, entity: String, offset: Int = 0) -> URL? {
         guard searchTerm.isEmpty == false else { return nil }
-        let baseURL = "https://itunes.apple.com/search"
         var queryItems = [URLQueryItem(name: "term", value: searchTerm)]
         queryItems.append(URLQueryItem(name: "entity", value: entity))
         queryItems.append(URLQueryItem(name: "country", value: "GB"))
         queryItems.append(URLQueryItem(name: "limit", value: String(APIService.fethcBatchLimit)))
         queryItems.append(URLQueryItem(name: "offset", value: String(offset)))
-        var components = URLComponents(string: baseURL)
+        var components = URLComponents(string: APIEndpoints.search.baseURL)
         components?.queryItems = queryItems
         return components?.url
     }

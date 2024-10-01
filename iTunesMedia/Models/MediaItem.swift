@@ -27,7 +27,7 @@ struct MediaItem: Identifiable, Decodable, Hashable {
     let currency: String
     let primaryGenreName: String
     let description: String?
-
+    
     enum CodingKeys: String, CodingKey {
         case id = "collectionId"
         case artistName, collectionName
@@ -52,7 +52,10 @@ struct MediaItem: Identifiable, Decodable, Hashable {
         self.primaryGenreName = try container.decodeIfPresent(String.self, forKey: .primaryGenreName) ?? ""
         self.description = try container.decodeIfPresent(String.self, forKey: .description) ?? nil
     }
-    
+}
+
+/// View Helper Extensions
+extension MediaItem {
     func title(forSubSection subSection: TabSubSection) -> String {
         switch subSection {
         case .iPhoneApp, .iPadApp, .tvEpisode, .ebook, .macApp:
