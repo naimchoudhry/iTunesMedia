@@ -7,6 +7,16 @@
 
 import Foundation
 
+enum APIEndpoints {
+    case search
+    
+    var baseURL: String {
+        switch self {
+        case .search: "https://itunes.apple.com/search"
+        }
+    }
+}
+
 enum APIError: Error, CustomStringConvertible {
     
     case badURL
