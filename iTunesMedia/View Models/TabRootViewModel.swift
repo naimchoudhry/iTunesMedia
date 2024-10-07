@@ -12,7 +12,7 @@ import SwiftUI
 class TabRootViewModel {
     
     var searchText: String = ""
-    var lastSearchText: String = "Loyds"
+    var lastSearchText: String = "Goodnotes"
     var isSearching = false
     var selectedTab: TabMainSection = .all
     var results: [TabSubSection:[MediaItem]] = [:]
