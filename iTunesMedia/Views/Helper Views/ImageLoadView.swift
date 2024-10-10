@@ -9,58 +9,43 @@ import SwiftUI
 
 struct ImageLoadView: View {
     
-    @State var urlString: String
+    var urlString: String
     let size: CGFloat
     let rounding: CGFloat?
-    @State private var retry = false
+    
+    @State private var uiImage: UIImage? = nil
+    @State private var imageDownloadError = false
+    @State private var cached = false
     
     var body: some View {
-        AsyncImage(url: URL(string: urlString), transaction: Transaction(animation: .default)) { phase in
-            if let image = phase.image {
-                image
-                    .frame(width: size, alignment: .center)
+        Group {
+            if let image = uiImage {
+                Image(uiImage: image)
                     .iflet(rounding) { view, rounding in
                         view.clipShape(RoundedRectangle(cornerRadius: rounding))
                     }
-                    .task {
-                        retry = false
+                    .if(!cached) {
+                        $0.transition(.opacity.animation(.easeInOut))
                     }
-            } else if let phaseError = phase.error {
+            } else if imageDownloadError {
                 Color.gray
-                    .frame(width: size)
                     .opacity(0.1)
                     .iflet(rounding) { view, rounding in
                         view.clipShape(RoundedRectangle(cornerRadius: rounding))
                     }
-                    .task {
-                        if !urlString.isEmpty && (phaseError as NSError).code == -999 {  // Cacnelled Error
-                            retry = true
-                            swapDelay()
-                        } 
-                    }
-                
             } else {
                 ProgressView()
-                    .frame(width: size)
-                    .task {
-                        retry = false
-                    }
             }
         }
+        .frame(width: size, height: size)
         .onAppear {
-            if retry {
-                swapDelay()
+            Task {
+                do {
+                    (uiImage, cached) = try await ImageDownloader.shared.image(from: urlString)
+                } catch {
+                    imageDownloadError = true
+                }
             }
-        }
-        .frame(height: size)
-    }
-    
-    // Workaround for image loads being cancelled in lazy container views
-    func swapDelay() {
-        let swap = urlString
-        urlString = ""
-        DispatchQueue.main.asyncAfter(deadline: .now()+0.1) {
-            urlString = swap
         }
     }
 }
