@@ -30,7 +30,8 @@ class APIService {
         guard let url = url else { throw APIError.badURL }
         
         let (data, response) = try await URLSession.shared.data(for: URLRequest(url: url))
-        guard (response as? HTTPURLResponse)?.statusCode == 200 else { throw APIError.badURL }
+        guard let statusCode = (response as? HTTPURLResponse)?.statusCode else {throw APIError.badURL}
+        guard statusCode == 200 else { throw APIError.badResponse(statusCode) }
         
         return try decodeResults(type: type, data: data)
     }

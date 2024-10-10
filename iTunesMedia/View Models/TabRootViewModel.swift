@@ -44,9 +44,13 @@ class TabRootViewModel {
     
     func search() {
         guard searchText.isEmpty == false else { return }
+        Task {
+            await ImageDownloader.shared.purgeCache()
+        }
         results = [:]
         resultsState = [:]
         resetScrollViews.toggle()
+        
         search(term: searchText)
     }
     
@@ -68,7 +72,7 @@ class TabRootViewModel {
         isSearching = true
         
         Task {
-            await withTaskGroup(of: Bool.self) { taskGroup in
+            await withTaskGroup(of: Void.self) { taskGroup in
                 for subSection in TabSubSection.allApiEntities {
                     taskGroup.addTask {
                         await self.search(term: term, subSection: subSection, offset: offset)
@@ -81,7 +85,7 @@ class TabRootViewModel {
         }
     }
     
-    private func search(term: String, subSection: TabSubSection, offset: Int = 0) async -> Bool {
+    @discardableResult private func search(term: String, subSection: TabSubSection, offset: Int = 0) async -> Bool {
         do {
             resultsState[subSection] = .isLoading
             let items = try await service.fetchMedia(searchTerm: term, entity: subSection.apiEntityName ?? "", offset: offset)
