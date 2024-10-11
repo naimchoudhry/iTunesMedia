@@ -8,6 +8,7 @@
 import Foundation
 
 /// Main Tab Section Views
+@MainActor
 enum TabMainSection: Equatable, Identifiable, Hashable {
     
     case all
@@ -56,7 +57,7 @@ enum TabMainSection: Equatable, Identifiable, Hashable {
         }
     }
     
-    var id: Self {
+    nonisolated var id: Self {
         return self
     }
     

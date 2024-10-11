@@ -92,7 +92,7 @@ import SwiftUI
 ///        .background(.clear)
 /// }
 /// ```
-@Observable
+@MainActor @Observable
 class Router {
     enum NavigationType: Equatable {
         case push
@@ -389,11 +389,11 @@ class Router {
 
 //MARK: Extensions
 extension Router: Identifiable, Equatable, Hashable {
-    static func == (lhs: Router, rhs: Router) -> Bool {
+    nonisolated static func == (lhs: Router, rhs: Router) -> Bool {
         lhs.id == rhs.id
     }
     
-    public func hash(into hasher: inout Hasher) {
+    nonisolated public func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
 }
