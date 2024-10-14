@@ -11,6 +11,7 @@ enum AppStorageKey {
     static let lastSearchTerm = "lastSearchTerm"
 }
 
+@MainActor
 class UserStorage: ObservableObject {
     @AppStorage(AppStorageKey.lastSearchTerm) var lastSearchTerm: String = "Goodnotes"
     

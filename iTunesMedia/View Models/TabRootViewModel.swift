@@ -18,8 +18,10 @@ class TabRootViewModel {
     var results: [TabSubSection:[MediaItem]] = [:]
     var resultsState: [TabSubSection: QueryState] = [:]
     var resetScrollViews: Bool = false
+    
     private let service = APIService()
     private var settings = UserStorage.shared
+    private var task: Task<Void, Error>?
     
     var tabHandler: Binding<TabMainSection> {
         Binding(
@@ -62,7 +64,7 @@ class TabRootViewModel {
     
     func fetchMore(subSection: TabSubSection) {
         guard let offset = results[subSection]?.count else { return }
-        Task {
+        task = Task {
             await self.search(term: lastSearchText, subSection: subSection, offset: offset)
         }
     }
@@ -71,9 +73,13 @@ class TabRootViewModel {
         lastSearchText = term + "... "
         isSearching = true
         
-        Task {
-            await withTaskGroup(of: Void.self) { taskGroup in
+        if let task {
+            task.cancel()
+        }
+        task = Task {
+            try await withThrowingTaskGroup(of: Void.self) { taskGroup in
                 for subSection in TabSubSection.allApiEntities {
+                    try Task.checkCancellation()
                     taskGroup.addTask {
                         await self.search(term: term, subSection: subSection, offset: offset)
                     }
@@ -82,6 +88,7 @@ class TabRootViewModel {
             lastSearchText = term
             settings.lastSearchTerm = term
             isSearching = false
+            self.task = nil
         }
     }
     
