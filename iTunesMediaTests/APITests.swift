@@ -13,29 +13,29 @@ struct APITests {
     let service = APIService()
     
     @Test("Test URL Creation for empty word search")
-    func testUrlEmpty() throws {
+    func testUrlEmpty() async throws {
         let apiEntityName = try #require(TabSubSection.album.apiEntityName)
-        #expect(service.createURL(for: "", entity: apiEntityName) == nil)
+        await #expect(service.createURL(for: "", entity: apiEntityName) == nil)
     }
     
     @Test("Test URL Creation for one word search")
-    func testUrlOne() throws {
+    func testUrlOne() async throws {
         let apiEntityName = try #require(TabSubSection.album.apiEntityName)
-        let url = try #require(service.createURL(for: "One", entity: apiEntityName))
+        let url = try #require(await service.createURL(for: "One", entity: apiEntityName))
         #expect(url.description == "https://itunes.apple.com/search?term=One&entity=album&country=GB&limit=50&offset=0")
     }
     
     @Test("Test URL Creation for two word search")
-    func testUrlTwo() throws {
+    func testUrlTwo() async throws {
         let apiEntityName = try #require(TabSubSection.album.apiEntityName)
-        let url = try #require(service.createURL(for: "One Two", entity: apiEntityName))
+        let url = try #require(await service.createURL(for: "One Two", entity: apiEntityName))
         #expect(url.description == "https://itunes.apple.com/search?term=One%20Two&entity=album&country=GB&limit=50&offset=0")
     }
     
     @Test("Test URL Creation for two word search with offset")
-    func testUrlTwoOffset() throws {
+    func testUrlTwoOffset() async throws {
         let apiEntityName = try #require(TabSubSection.album.apiEntityName)
-        let url = try #require(service.createURL(for: "One Two", entity: apiEntityName, offset: 123))
+        let url = try #require(await service.createURL(for: "One Two", entity: apiEntityName, offset: 123))
         #expect(url.description == "https://itunes.apple.com/search?term=One%20Two&entity=album&country=GB&limit=50&offset=123")
     }
     
