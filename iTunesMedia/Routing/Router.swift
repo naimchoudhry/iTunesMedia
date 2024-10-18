@@ -140,8 +140,6 @@ class Router {
     ///   - animated: To animate the transition, default is true
     ///   - hideNavigationBar: To hide the navigation bar, including the back bar item - set this on new navigation stack creation (i.e not .push routes, will be ignored on .push routes)
     ///   - destination: The destination view, will have a router object passed in, so that new routes can be driven from this route
-    ///   - animated: To animate the transition, default is true
-    ///   - hideNavigationBar: To hide the navigation bar, including the back bar item - set this on new navigation stack creation (i.e not .push routes, will be ignored on .push routes)
     /// - Returns: The new Router instance for a new navigation stack flow, or self if simply pushing a new view onto the current navigation stack
     @discardableResult func routeTo<T>(_ routeType: NavigationType, animated: Bool = true, hideNavigationBar: Bool = false, @ViewBuilder destination: @escaping (Router) -> T) -> Router where T: View {
         var newDestination: Destination
