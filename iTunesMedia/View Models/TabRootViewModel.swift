@@ -32,11 +32,21 @@ class TabRootViewModel {
         )
     }
     
-    var noResults: Bool {
+    func noResults(forTab tab: TabMainSection) -> Bool {
         if isSearching {
             return false
         } else {
-            return results.values.reduce(0) {$0 + $1.count} == 0
+            if tab == .all {
+                return results.values.reduce(0) {$0 + $1.count} == 0
+            } else {
+                var count = 0
+                for sub in tab.subSectionItems {
+                    if let subCount = results[sub]?.count {
+                        count += subCount
+                    }
+                }
+                return count == 0
+            }
         }
     }
     
@@ -46,6 +56,7 @@ class TabRootViewModel {
     
     func search() {
         guard searchText.isEmpty == false else { return }
+        guard searchText != lastSearchText else { return }
         Task {
             await ImageDownloader.shared.purgeCache()
         }
@@ -72,7 +83,7 @@ class TabRootViewModel {
     private func search(term: String, offset: Int = 0) {
         lastSearchText = term + "... "
         isSearching = true
-        
+        print("Searching \(term)")
         if let task {
             task.cancel()
         }
@@ -85,6 +96,7 @@ class TabRootViewModel {
                     }
                 }
             }
+            try Task.checkCancellation()
             lastSearchText = term
             settings.lastSearchTerm = term
             isSearching = false

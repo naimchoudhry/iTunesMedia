@@ -42,7 +42,7 @@ struct AllListView: View {
             Spacer()
         }
         .overlay {
-            if viewModel.noResults {
+            if viewModel.noResults(forTab: section) {
                 ContentUnavailableView("No results for '\(viewModel.lastSearchText)'", systemImage: "exclamationmark.magnifyingglass", description: Text("Try another search"))
             }
         }
