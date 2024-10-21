@@ -13,7 +13,7 @@ This is a universal app, targeting iPhone and iPad and requires iOS 18 in order 
 
 On iPads, the app supports split view and fully resizable views, so when in compact mode due to split screen, the tab bar style will mimick the iPhone tab bar style (elements at bottom).
 
-Dark mode and dynamic text are fully supported.  The app is written using SwiftUI. Testings is implemented using the new ‘Swift Testing’ framework introduced with Xcode 16.
+Dark mode and dynamic text are fully supported.  The app is written using SwiftUI. Tests are implemented using the new ‘Swift Testing’ framework introduced with Xcode 16.
 
 # API Documentation
 
