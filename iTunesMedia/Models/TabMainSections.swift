@@ -8,7 +8,6 @@
 import Foundation
 
 /// Main Tab Section Views
-@MainActor
 enum TabMainSection: Equatable, Identifiable, Hashable {
     
     case all
@@ -17,7 +16,7 @@ enum TabMainSection: Equatable, Identifiable, Hashable {
     case app(TabSubSection)
     case book
     
-    static var mainSections: [TabMainSection] =  [.all, .book, .audio(.allAudio), .video(.allVideo), .app(.allApp)]
+    @MainActor static var mainSections: [TabMainSection] =  [.all, .book, .audio(.allAudio), .video(.allVideo), .app(.allApp)]
     
     var title: String {
         switch self {
@@ -57,7 +56,7 @@ enum TabMainSection: Equatable, Identifiable, Hashable {
         }
     }
     
-    nonisolated var id: Self {
+    var id: Self {
         return self
     }
     

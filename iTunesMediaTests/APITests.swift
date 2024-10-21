@@ -39,7 +39,7 @@ struct APITests {
         #expect(url.description == "https://itunes.apple.com/search?term=One%20Two&entity=album&country=GB&limit=50&offset=123")
     }
     
-    // Assumtion through testings is that 'Jackson' returns media items in all categories
+    // Assumption through testings is that 'Jackson' returns media items in all categories
     @Test("Check search on 'Jackson' for all media types",
           arguments: [TabSubSection.album, .song, .podcast, .tvshow, .tvEpisode, .movie, .iPhoneApp, .iPadApp, .macApp, .ebook]
     )
