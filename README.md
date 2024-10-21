@@ -2,15 +2,8 @@
 Demo Project for iTunes Media with iOS18 Tab View style.
 
 iPad|iPhone
-:----:|:----:|
-<img src="https://github.com/user-attachments/assets/db42e03c-9886-4efd-ad3c-c56288c35fff" />|<img src="https://github.com/user-attachments/assets/edb254bd-3065-4e0c-8143-ed66c2c7220d" />
-<table width="100%">
-  <tr>
-  <td width="75%"></td>
-  <td width="25%"></td>
-  </tr>
-</table>
-
+--|--
+<img src="https://github.com/user-attachments/assets/db42e03c-9886-4efd-ad3c-c56288c35fff" width=700 />|<img src="https://github.com/user-attachments/assets/edb254bd-3065-4e0c-8143-ed66c2c7220d" width=228/>
 # Description
 
 iTunesMedia is a demo project which provides functionality for searching and displaying iTunes Media. It uses the open Apple API ‘itunes.apple.com/search', and searches through the categories: 
