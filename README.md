@@ -3,7 +3,7 @@ Demo Project for iTunes Media with iOS18 Tab View style.
 
 iPad|iPhone
 --|--
-<img src="https://github.com/user-attachments/assets/db42e03c-9886-4efd-ad3c-c56288c35fff" width="700" />|<img src="https://github.com/user-attachments/assets/edb254bd-3065-4e0c-8143-ed66c2c7220d" width="228"/>
+<img src="https://github.com/user-attachments/assets/db42e03c-9886-4efd-ad3c-c56288c35fff" width="600" />|<img src="https://github.com/user-attachments/assets/edb254bd-3065-4e0c-8143-ed66c2c7220d" width="228"/>
 
 # Description
 
