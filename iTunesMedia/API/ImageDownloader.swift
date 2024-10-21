@@ -14,26 +14,24 @@ enum ImageDownloadError: Error {
 }
 
 actor ImageDownloader {
+    typealias ImageResult = (UIImage, Bool) /// The returned image and true if cached image was used
+    
     private enum CacheEntry {
         case inProgress(Task<UIImage, Error>)
         case ready(UIImage)
     }
     
-    typealias Result = (UIImage, Bool) /// The returned image and true if cached image was used
-    
     static let shared = ImageDownloader()
-    
     private let session: URLSession
     private var cache: [String: CacheEntry] = [:]
     
     private init() {
         let config = URLSessionConfiguration.default
-        let urlcache = URLCache(memoryCapacity: 500_000_000, diskCapacity: 1_000_000_000)
-        config.urlCache = urlcache
+        config.urlCache = URLCache(memoryCapacity: 500_000_000, diskCapacity: 1_000_000_000)
         session = URLSession(configuration: config)
     }
 
-    func image(from urlString: String) async throws -> Result {
+    func image(from urlString: String) async throws -> ImageResult {
         if let cached = cache[urlString] {
             switch cached {
             case .ready(let image):

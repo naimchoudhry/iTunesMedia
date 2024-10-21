@@ -14,10 +14,11 @@ class TabRootViewModel {
     var searchText: String = ""
     var lastSearchText: String = "Goodnotes"
     var isSearching = false
-    var selectedTab: TabMainSection = .all
-    var results: [TabSubSection:[MediaItem]] = [:]
-    var resultsState: [TabSubSection: QueryState] = [:]
-    var resetScrollViews: Bool = false
+    
+    private(set) var selectedTab: TabMainSection = .all
+    private(set) var results: [TabSubSection:[MediaItem]] = [:]
+    private(set) var resultsState: [TabSubSection: QueryState] = [:]
+    private(set) var resetScrollViews: Bool = false
     
     private let service = APIService()
     private var settings = UserStorage.shared
@@ -41,9 +42,7 @@ class TabRootViewModel {
             } else {
                 var count = 0
                 for sub in tab.subSectionItems {
-                    if let subCount = results[sub]?.count {
-                        count += subCount
-                    }
+                    count += itemsFor(subSection: sub).count
                 }
                 return count == 0
             }
