@@ -10,10 +10,11 @@ import SwiftUI
 struct TabRootView: View {
     
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
-    @State var tabRootViewModel = TabRootViewModel()
+    let tabRootViewModel = TabRootViewModel()
+    @State var selection: TabMainSection = .all
     
     var body: some View {
-        TabView(selection: tabRootViewModel.tabHandler) {
+        TabView(selection: $selection) {
             ForEach(TabMainSection.mainSections) { section in
                 if horizontalSizeClass == .regular, let subSections = section.subSections {
                     TabSection  {
@@ -40,14 +41,13 @@ struct TabRootView: View {
     }
     
     @ViewBuilder func tabView(section: TabMainSection, filterItems: [TabSubSection]) -> some View {
-        let destination = Router.startRoute { router in
+        Router.startRoute { router in
             if section.isAll {
                 AllView(section: section, subSectionFilterItems: filterItems, viewModel: tabRootViewModel, router: router)
             } else {
                 DetailView(section: section, viewModel: tabRootViewModel, router: router)
             }
-        }
-        destination.view
+        }.view
     }
 }
 

@@ -15,7 +15,6 @@ class TabRootViewModel {
     var lastSearchText: String = "Goodnotes"
     var isSearching = false
     
-    private(set) var selectedTab: TabMainSection = .all
     private(set) var results: [TabSubSection:[MediaItem]] = [:]
     private(set) var resultsState: [TabSubSection: QueryState] = [:]
     private(set) var resetScrollViews: Bool = false
@@ -24,15 +23,6 @@ class TabRootViewModel {
     private var settings = UserStorage.shared
     private var task: Task<Void, Error>?
     
-    var tabHandler: Binding<TabMainSection> {
-        Binding(
-            get: {self.selectedTab},
-            set: {
-                self.selectedTab = $0
-            }
-        )
-    }
-    
     func noResults(forTab tab: TabMainSection) -> Bool {
         if isSearching {
             return false
@@ -40,11 +30,7 @@ class TabRootViewModel {
             if tab == .all {
                 return results.values.reduce(0) {$0 + $1.count} == 0
             } else {
-                var count = 0
-                for sub in tab.subSectionItems {
-                    count += itemsFor(subSection: sub).count
-                }
-                return count == 0
+                return tab.subSectionItems.reduce(0) {$0 + itemsFor(subSection: $1).count} == 0
             }
         }
     }
