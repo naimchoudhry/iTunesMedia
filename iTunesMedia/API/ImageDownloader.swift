@@ -42,8 +42,12 @@ actor ImageDownloader {
         }
         
         let task = Task {
-            guard let url = URL(string: urlString) else { throw ImageDownloadError.invalidURL }
+            guard let url = URL(string: urlString) else {
+                throw ImageDownloadError.invalidURL
+            }
+            
             let (data, _) = try await session.data(from: url)
+            
             if let image = UIImage(data: data) {
                 cache[urlString] = .ready(image)
                 return image

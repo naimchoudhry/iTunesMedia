@@ -25,13 +25,13 @@ extension View {
     /// Closure given view if conditional.
     /// - Parameters:
     ///   - conditional: Boolean condition.
-    ///   - truthy: Closure to run on view if true.
-    ///   - falsy: Closure to run on view if false.
-    @ViewBuilder func `if`<Truthy: View, Falsy: View>(_ conditional: Bool = true, @ViewBuilder _ truthy: (Self) -> Truthy, @ViewBuilder else falsy: (Self) -> Falsy) -> some View {
+    ///   - trueView: Closure to run on view if true.
+    ///   - falseView: Closure to run on view if false.
+    @ViewBuilder func `if`<TrueView: View, FalseView: View>(_ conditional: Bool, @ViewBuilder _ trueView: (Self) -> TrueView, @ViewBuilder else falseView: (Self) -> FalseView) -> some View {
         if conditional {
-            truthy(self)
+            trueView(self)
         } else {
-            falsy(self)
+            falseView(self)
         }
     }
     

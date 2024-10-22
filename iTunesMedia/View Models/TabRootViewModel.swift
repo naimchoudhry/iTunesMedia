@@ -82,7 +82,6 @@ class TabRootViewModel {
     private func search(term: String, offset: Int = 0) {
         lastSearchText = term + "... "
         isSearching = true
-        print("Searching \(term)")
         if let task {
             task.cancel()
         }

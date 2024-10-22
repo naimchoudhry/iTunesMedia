@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ImageLoadView: View {
     
-    var urlString: String
+    let urlString: String
     let size: CGFloat
     let rounding: CGFloat?
     
@@ -38,13 +38,11 @@ struct ImageLoadView: View {
             }
         }
         .frame(width: size, height: size)
-        .onAppear {
-            Task {
-                do {
-                    (uiImage, cached) = try await ImageDownloader.shared.image(from: urlString)
-                } catch {
-                    imageDownloadError = true
-                }
+        .task {
+            do {
+                (uiImage, cached) = try await ImageDownloader.shared.image(from: urlString)
+            } catch {
+                imageDownloadError = true
             }
         }
     }
