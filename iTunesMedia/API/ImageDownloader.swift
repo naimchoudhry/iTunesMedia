@@ -29,6 +29,9 @@ actor ImageDownloader {
         let config = URLSessionConfiguration.default
         config.urlCache = URLCache(memoryCapacity: 500_000_000, diskCapacity: 1_000_000_000)
         session = URLSession(configuration: config)
+        Task {
+            await listenForMemoryPressureWarnings()
+        }
     }
 
     func image(from urlString: String) async throws -> ImageResult {
@@ -65,6 +68,12 @@ actor ImageDownloader {
         } catch {
             cache[urlString] = nil
             throw error
+        }
+    }
+    
+    func listenForMemoryPressureWarnings() async {
+        for await _ in NotificationCenter.default.notifications(named: UIApplication.didReceiveMemoryWarningNotification) {
+            self.purgeCache()
         }
     }
     

@@ -59,6 +59,7 @@ struct DetailListView: View {
             
         }
         .listStyle(.plain)
+        .animation(.easeInOut, value: viewModel.results)
     }
 }
 

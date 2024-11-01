@@ -41,6 +41,7 @@ struct AllListView: View {
             .scrollPosition($position)
             Spacer()
         }
+        .animation(.easeInOut, value: viewModel.results)
         .overlay {
             if viewModel.noResults(forTab: section) {
                 ContentUnavailableView("No results for '\(viewModel.lastSearchText)'", systemImage: "exclamationmark.magnifyingglass", description: Text("Try another search"))
