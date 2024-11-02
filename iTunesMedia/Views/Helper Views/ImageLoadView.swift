@@ -25,7 +25,7 @@ struct ImageLoadView: View {
                         view.clipShape(RoundedRectangle(cornerRadius: rounding))
                     }
                     .if(!cached) {
-                        $0.transition(.opacity.animation(.easeInOut))
+                        $0.transition(.opacity.combined(with: .scale(0.65)).animation(.easeInOut))
                     }
             } else if imageDownloadError {
                 Color.gray
@@ -34,7 +34,7 @@ struct ImageLoadView: View {
                         view.clipShape(RoundedRectangle(cornerRadius: rounding))
                     }
             } else {
-                ProgressView()
+                Color.clear
             }
         }
         .frame(width: size, height: size)

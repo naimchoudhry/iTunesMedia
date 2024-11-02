@@ -10,7 +10,6 @@ import SwiftUI
 @MainActor
 @Observable
 class TabRootViewModel {
-    
     var searchText: String = ""
     var lastSearchText: String = "Goodnotes"
     var isSearching = false
@@ -59,13 +58,13 @@ class TabRootViewModel {
     }
     
     func fetchMore(subSection: TabSubSection) {
-        guard let offset = results[subSection]?.count else { return }
+        let offset = results[subSection]?.count ?? 0
         task = Task {
             await self.search(term: lastSearchText, subSection: subSection, offset: offset)
         }
     }
     
-    private func search(term: String, offset: Int = 0) {
+    private func search(term: String) {
         lastSearchText = term + "... "
         isSearching = true
         if let task {
@@ -76,7 +75,7 @@ class TabRootViewModel {
                 for subSection in TabSubSection.allApiEntities {
                     try Task.checkCancellation()
                     taskGroup.addTask {
-                        await self.search(term: term, subSection: subSection, offset: offset)
+                        await self.search(term: term, subSection: subSection, offset: 0)
                     }
                 }
             }
