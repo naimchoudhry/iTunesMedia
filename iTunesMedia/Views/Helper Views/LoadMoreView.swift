@@ -26,6 +26,7 @@ struct LoadMoreView: View {
                 ProgressView() {
                     Text("Fetching more results...")
                 }
+                .id(Int.random(in: 0...1000))
                 .frame(maxWidth: .infinity)
             }
             
@@ -50,17 +51,24 @@ struct LoadMoreView: View {
             .padding()
             .foregroundStyle(.secondary)
             
-        case .error(let message):
-            HStack {
-                Text(message)
-                    .foregroundColor(.red)
-                    .font(.headline)
-                    .frame(maxWidth: .infinity)
+        case .error:
+            VStack {
+                Group {
+                    Text("Loading failed!")
+                        .frame(maxWidth: .infinity)
+                        .padding(.bottom, 8)
+                    Button("Retry", systemImage: "arrow.counterclockwise.circle.fill") {
+                        loadMore()
+                    }
+                }
+                .foregroundColor(.red)
+                .font(.headline)
             }
+            
         }
     }
 }
 
 #Preview {
-    LoadMoreView(state: .good, loadMore: {}, searchTerm: "Search")
+    LoadMoreView(state: .isLoading, loadMore: {}, searchTerm: "Search")
 }
