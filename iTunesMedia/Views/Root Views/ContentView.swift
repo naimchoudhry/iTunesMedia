@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct ContentView: View {
+    let tabRootViewModel = TabRootViewModel()
     
     var body: some View {
         TabRootView()
+            .environment(tabRootViewModel)
     }
 }
 

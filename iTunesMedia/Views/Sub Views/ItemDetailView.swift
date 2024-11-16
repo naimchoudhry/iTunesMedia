@@ -8,10 +8,9 @@
 import SwiftUI
 
 struct ItemDetailView: View {
-    
     let media: MediaItem
     let subSection: TabSubSection
-    let router: Router?
+    let router: Router
     var hidePrevieButton: Bool = false
     var lineLimit: Bool = true
     
@@ -31,7 +30,7 @@ struct ItemDetailView: View {
                     .if(lineLimit) {
                         $0.lineLimit(3)
                     }
-                if !hidePrevieButton, let url = URL(string: media.previewURL), let router {
+                if !hidePrevieButton, let url = URL(string: media.previewURL) {
                     PreviewButtonView(url: url, router: router)
                         .font(.caption)
                         .buttonStyle(.bordered)
@@ -39,5 +38,9 @@ struct ItemDetailView: View {
             }
         }
     }
+}
+
+#Preview {
+    ItemDetailView(media: .preview, subSection: .iPhoneApp, router: Router())
 }
 

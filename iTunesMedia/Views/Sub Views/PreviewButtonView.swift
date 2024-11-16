@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct PreviewButtonView: View {
-    
     let url: URL
     let router: Router
     var hideImage: Bool = true

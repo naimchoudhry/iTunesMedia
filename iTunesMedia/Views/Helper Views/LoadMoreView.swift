@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct LoadMoreView: View {
-    
     let state: QueryState
     let loadMore: () -> Void
     let searchTerm: String
@@ -70,5 +69,5 @@ struct LoadMoreView: View {
 }
 
 #Preview {
-    LoadMoreView(state: .isLoading, loadMore: {}, searchTerm: "Search")
+    LoadMoreView(state: .error("Could not Load"), loadMore: {}, searchTerm: "Search")
 }

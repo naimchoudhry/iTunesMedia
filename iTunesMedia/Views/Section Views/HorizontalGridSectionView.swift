@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct HorizontalGridSectionView: View {
+    @Environment(TabRootViewModel.self) private var viewModel
     
-    @Bindable var viewModel: TabRootViewModel
     let subSection: TabSubSection
-    var router: Router?
+    var router: Router
     let displayLimit = 50
     
     @State private var rows: [GridItem] = Array(repeating: GridItem(.fixed(60), spacing: 8, alignment: .leading), count: 4)
@@ -34,7 +34,7 @@ struct HorizontalGridSectionView: View {
                                 .lineLimit(1)
                         }
                         Spacer()
-                        if let url = URL(string: media.previewURL), let router {
+                        if let url = URL(string: media.previewURL) {
                             PreviewButtonView(url: url, router: router)
                                 .font(.caption)
                                 .buttonStyle(.bordered)
@@ -44,19 +44,19 @@ struct HorizontalGridSectionView: View {
                     .frame(width: 300, alignment: .leading)
                     .contentShape(.rect)
                     .onTapGesture {
-                        router?.routeTo(.push) { router in
+                        router.routeTo(.push) { router in
                             MediaItemView(media: media, subSection: subSection, router: router)
                                 .navigationTitle(media.title(forSubSection: subSection))
                         }
                     }
                     .contextMenu(menuItems: {
                         Button("View", systemImage: "eye") {
-                            router?.routeTo(.push) { router in
+                            router.routeTo(.push) { router in
                                 MediaItemView(media: media, subSection: subSection, router: router)
                                     .navigationTitle(media.title(forSubSection: subSection))
                             }
                         }
-                        if let router, let url = URL(string: media.previewURL) {
+                        if let url = URL(string: media.previewURL) {
                             PreviewButtonView(url: url, router: router, hideImage: false)
                         }
                     }, preview: {
@@ -92,6 +92,7 @@ struct HorizontalGridSectionView: View {
 }
 
 #Preview {
-    HorizontalGridSectionView(viewModel: TabRootViewModel(), subSection: .album, router: Router())
+    HorizontalGridSectionView(subSection: .album, router: Router())
+        .environment(TabRootViewModel())
 }
 

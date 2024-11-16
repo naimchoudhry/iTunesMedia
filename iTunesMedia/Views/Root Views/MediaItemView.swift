@@ -8,10 +8,9 @@
 import SwiftUI
 
 struct MediaItemView: View {
-    
     let media: MediaItem
     let subSection: TabSubSection
-    let router: Router?
+    let router: Router
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -27,7 +26,7 @@ struct MediaItemView: View {
                 }
                 Spacer()
             }
-            if let url = URL(string: media.previewURL), let router {
+            if let url = URL(string: media.previewURL) {
                 PreviewButtonView(url: url, router: router)
                     .font(.headline)
                     .buttonStyle(.bordered)
@@ -45,4 +44,8 @@ struct MediaItemView: View {
         }
         .padding()
     }
+}
+
+#Preview {
+    MediaItemView(media: .preview, subSection: .iPhoneApp, router: Router())
 }

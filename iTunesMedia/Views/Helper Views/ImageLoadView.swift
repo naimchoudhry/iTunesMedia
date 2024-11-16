@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ImageLoadView: View {
-    
     let urlString: String
     let size: CGFloat
     let rounding: CGFloat?

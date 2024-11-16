@@ -8,10 +8,9 @@
 import SwiftUI
 
 struct HeaderView: View {
-    
-    @Binding var isSearching: Bool
-    @Binding var lastSearchText: String
-    @Binding var title: String
+    var isSearching: Bool
+    var lastSearchText: String
+    var title: String
     
     var body: some View {
         HStack {
@@ -31,5 +30,5 @@ struct HeaderView: View {
 }
 
 #Preview {
-    HeaderView(isSearching: .constant(true), lastSearchText: .constant("test"), title: .constant("All"))
+    HeaderView(isSearching: true, lastSearchText: "test", title: "All")
 }

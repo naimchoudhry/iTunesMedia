@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct HorizontalSectionView: View {
+    @Environment(TabRootViewModel.self) private var viewModel
     
-    @Bindable var viewModel: TabRootViewModel
     let subSection: TabSubSection
-    @State var router: Router?
+    let router: Router
     let displayLimit = 50
+    
     @State private var position = ScrollPosition(edge: .leading)
     
     var body: some View {
@@ -30,19 +31,19 @@ struct HorizontalSectionView: View {
                     .frame(width: 100)
                     .font(.caption)
                     .onTapGesture {
-                        router?.routeTo(.push) { router in
+                        router.routeTo(.push) { router in
                             MediaItemView(media: media, subSection: subSection, router: router)
                                 .navigationTitle(media.title(forSubSection: subSection))
                         }
                     }
                     .contextMenu(menuItems: {
                         Button("View", systemImage: "eye") {
-                            router?.routeTo(.push) { router in
+                            router.routeTo(.push) { router in
                                 MediaItemView(media: media, subSection: subSection, router: router)
                                     .navigationTitle(media.title(forSubSection: subSection))
                             }
                         }
-                        if let router, let url = URL(string: media.previewURL) {
+                        if let url = URL(string: media.previewURL) {
                             PreviewButtonView(url: url, router: router, hideImage: false)
                         }
                     }, preview: {
@@ -69,5 +70,6 @@ struct HorizontalSectionView: View {
 }
 
 #Preview {
-    HorizontalSectionView(viewModel: TabRootViewModel(), subSection: .album)
+    HorizontalSectionView(subSection: .album, router: Router())
+        .environment(TabRootViewModel())
 }

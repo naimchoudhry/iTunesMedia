@@ -8,12 +8,11 @@
 import SwiftUI
 
 struct AllListView: View {
+    @Environment(TabRootViewModel.self) private var viewModel
     
     let section: TabMainSection
-    @Bindable var viewModel: TabRootViewModel
-    var router: Router
+    let router: Router
     
-    @State var title: String = ""
     @State private var position = ScrollPosition(edge: .top)
     
     var body: some View {
@@ -24,15 +23,15 @@ struct AllListView: View {
                         if let items = viewModel.results[subSection], items.count > 0 {
                             SectionHeaderView(title: subSection.title, action: {
                                 router.routeTo(.push) { _ in
-                                    DetailListView(subSection: subSection, viewModel: viewModel, router: router)
+                                    DetailListView(subSection: subSection, router: router)
                                         .navigationTitle(subSection.title)
                                         .navigationBarTitleDisplayMode(.large)
                                 }
                             })
                             if subSection.subSectionLayoutStyle == .grouped {
-                                HorizontalGridSectionView(viewModel: viewModel, subSection: subSection, router: router)
+                                HorizontalGridSectionView(subSection: subSection, router: router)
                             } else {
-                                HorizontalSectionView(viewModel: viewModel, subSection: subSection, router: router)
+                                HorizontalSectionView(subSection: subSection, router: router)
                             }
                         }
                     }
@@ -54,5 +53,6 @@ struct AllListView: View {
 }
 
 #Preview {
-    AllListView(section: .audio(.album), viewModel: TabRootViewModel(), router: Router())
+    AllListView(section: .audio(.album), router: Router())
+        .environment(TabRootViewModel())
 }
