@@ -8,22 +8,23 @@
 import SwiftUI
 
 struct AllView: View {
+    @Environment(TabRootViewModel.self) private var viewModel
     
     let section: TabMainSection
     let subSectionFilterItems: [TabSubSection]
-    @Bindable var viewModel: TabRootViewModel
-    @State var router: Router
+    let router: Router
     
     @State private var title: String = ""
     @State private var selectedSubSection: TabSubSection?
+    
     private var showSubSections: Bool {
         !subSectionFilterItems.isEmpty
     }
     
     var body: some View {
-        
+        @Bindable var viewModel = viewModel
         VStack {
-            HeaderView(isSearching: $viewModel.isSearching, lastSearchText: $viewModel.lastSearchText, title: $title)
+            HeaderView(isSearching: viewModel.isSearching, lastSearchText: viewModel.lastSearchText, title: title)
                 .padding(.horizontal)
             
             SearchBarView(text: $viewModel.searchText)
@@ -38,9 +39,9 @@ struct AllView: View {
             }
             
             if let selectedSubSection, !selectedSubSection.isAll {
-                DetailListView(subSection: selectedSubSection, viewModel: viewModel, router: router)
+                DetailListView(subSection: selectedSubSection, router: router)
             } else {
-                AllListView(section: section, viewModel: viewModel, router: router)
+                AllListView(section: section, router: router)
             }
         }
         .onAppear {
@@ -58,5 +59,6 @@ struct AllView: View {
 }
 
 #Preview {
-    AllView(section: .audio(.allAudio), subSectionFilterItems: [], viewModel: TabRootViewModel(), router: Router())
+    AllView(section: .audio(.allAudio), subSectionFilterItems: [], router: Router())
+        .environment(TabRootViewModel())
 }

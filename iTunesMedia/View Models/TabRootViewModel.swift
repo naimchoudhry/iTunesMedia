@@ -7,36 +7,19 @@
 
 import SwiftUI
 
-@MainActor
-@Observable
-class TabRootViewModel {
+@MainActor @Observable final class TabRootViewModel {
     var searchText: String = ""
-    var lastSearchText: String = "Goodnotes"
     var isSearching = false
     
+    private(set) var lastSearchText: String = UserStorage.shared.lastSearchTerm
     private(set) var results: [TabSubSection:[MediaItem]] = [:]
     private(set) var resultsState: [TabSubSection: QueryState] = [:]
     private(set) var resetScrollViews: Bool = false
     
     private let service = APIService()
-    private var settings = UserStorage.shared
     private var task: Task<Void, Error>?
     
-    func noResults(forTab tab: TabMainSection) -> Bool {
-        if isSearching {
-            return false
-        } else {
-            if tab == .all {
-                return results.values.reduce(0) {$0 + $1.count} == 0
-            } else {
-                return tab.subSectionItems.reduce(0) {$0 + itemsFor(subSection: $1).count} == 0
-            }
-        }
-    }
-    
-    func itemsFor(subSection: TabSubSection) -> [MediaItem] {
-        results[subSection] ?? []
-    }
+    // Search Functions
     
     func search() {
         guard searchText.isEmpty == false else { return }
@@ -54,7 +37,7 @@ class TabRootViewModel {
     func searchLast() {
         results = [:]
         resultsState = [:]
-        search(term: settings.lastSearchTerm)
+        search(term: UserStorage.shared.lastSearchTerm)
     }
     
     func fetchMore(subSection: TabSubSection) {
@@ -64,6 +47,24 @@ class TabRootViewModel {
         }
     }
     
+    // Helper Functions
+    
+    func itemsFor(subSection: TabSubSection) -> [MediaItem] {
+        results[subSection] ?? []
+    }
+    
+    func noResults(forTab tab: TabMainSection) -> Bool {
+        guard !isSearching else { return false }
+        if tab == .all {
+            return results.values.reduce(0) {$0 + $1.count} == 0
+        } else {
+            return tab.subSectionItems.reduce(0) {$0 + itemsFor(subSection: $1).count} == 0
+        }
+    }
+}
+
+/// Private Search Functions
+extension TabRootViewModel {
     private func search(term: String) {
         lastSearchText = term + "... "
         isSearching = true
@@ -81,7 +82,7 @@ class TabRootViewModel {
             }
             try Task.checkCancellation()
             lastSearchText = term
-            settings.lastSearchTerm = term
+            UserStorage.shared.lastSearchTerm = term
             isSearching = false
             self.task = nil
         }
@@ -107,7 +108,7 @@ class TabRootViewModel {
                 results[subSection] = []
             }
             print("Error for \(subSection.apiEntityName ?? "nil"): \(error)")
-            resultsState[subSection] = .error("Could not load \(error.localizedDescription).")
+            resultsState[subSection] = .error("Could not load error: \(error.localizedDescription).")
             return false
         }
     }

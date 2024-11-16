@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct SectionPickerView: View {
-    
     let subSectionItems: [TabSubSection]
     @Binding var selectedSubSection: TabSubSection?
     

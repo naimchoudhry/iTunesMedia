@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct TabRootView: View {
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    @Environment(TabRootViewModel.self) private var viewModel
     
-    @Environment(\.horizontalSizeClass) var horizontalSizeClass
-    let tabRootViewModel = TabRootViewModel()
     @State var selection: TabMainSection = .all
     
     var body: some View {
@@ -36,16 +36,16 @@ struct TabRootView: View {
         .tint(.green)
         .tabViewStyle(.sidebarAdaptable)
         .onAppear {
-            tabRootViewModel.searchLast()
+            viewModel.searchLast()
         }
     }
     
     @ViewBuilder func tabView(section: TabMainSection, filterItems: [TabSubSection]) -> some View {
         Router.startRoute { router in
             if section.isAll {
-                AllView(section: section, subSectionFilterItems: filterItems, viewModel: tabRootViewModel, router: router)
+                AllView(section: section, subSectionFilterItems: filterItems, router: router)
             } else {
-                DetailView(section: section, viewModel: tabRootViewModel, router: router)
+                DetailView(section: section, router: router)
             }
         }.view
     }
@@ -53,4 +53,5 @@ struct TabRootView: View {
 
 #Preview {
     TabRootView()
+        .environment(TabRootViewModel())
 }

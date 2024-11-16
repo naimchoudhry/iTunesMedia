@@ -13,7 +13,7 @@ enum AppStorageKey {
 
 @MainActor
 class UserStorage: ObservableObject {
-    @AppStorage(AppStorageKey.lastSearchTerm) var lastSearchTerm: String = "Goodnotes"
+    @AppStorage(AppStorageKey.lastSearchTerm) var lastSearchTerm: String = "House"
     
     static let shared = UserStorage()
     private init() {}

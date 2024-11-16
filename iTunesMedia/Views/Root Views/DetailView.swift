@@ -8,16 +8,17 @@
 import SwiftUI
 
 struct DetailView: View {
+    @Environment(TabRootViewModel.self) private var viewModel
     
     let section: TabMainSection
-    @Bindable var viewModel: TabRootViewModel
-    @State var router: Router
+    let router: Router
     
     @State private var title: String = ""
     
     var body: some View {
+        @Bindable var viewModel = viewModel
         VStack {
-            HeaderView(isSearching: $viewModel.isSearching, lastSearchText: $viewModel.lastSearchText, title: $title)
+            HeaderView(isSearching: viewModel.isSearching, lastSearchText: viewModel.lastSearchText, title: title)
                 .padding(.horizontal)
             
             SearchBarView(text: $viewModel.searchText)
@@ -25,7 +26,7 @@ struct DetailView: View {
                     viewModel.search()
                 }
             
-            DetailListView(subSection: section.subSection, viewModel: viewModel, router: router)
+            DetailListView(subSection: section.subSection, router: router)
         }
         .onAppear {
             title = section.subTitle
@@ -34,5 +35,6 @@ struct DetailView: View {
 }
 
 #Preview {
-    DetailView(section: .audio(.album), viewModel: TabRootViewModel(), router: Router())
+    DetailView(section: .audio(.album), router: Router())
+        .environment(TabRootViewModel())
 }
