@@ -2,7 +2,7 @@
 //  MediaItemView.swift
 //  iTunesMedia
 //
-//  Created by Naim Choudhry on 25/09/2024.
+//  Created by Naim Choudhry on 25/09/2024...
 //
 
 import SwiftUI
